@@ -1,3 +1,111 @@
-body {
-    background-color: skyblue;
-}
+:root {
+            --rd-cream: #FFF9F0;
+            --rd-brown: #5D4037;
+            --rd-brown-light: #8D6E63;
+            --rd-pastel-green: #A8C69F;
+            --rd-soft-shadow: 0 10px 30px rgba(93, 64, 55, 0.08);
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--rd-cream);
+            color: var(--rd-brown);
+        }
+
+        /* --- Header --- */
+        .navbar {
+            background-color: rgba(255, 249, 240, 0.95);
+            backdrop-filter: blur(5px);
+            border-bottom: 2px solid rgba(93, 64, 55, 0.05);
+        }
+        .navbar-brand img { height: 45px; }
+
+        /* --- Hero Section --- */
+        .hero-section {
+            padding: 100px 0 60px;
+            background: url('hero-crayon.png') no-repeat center bottom; /* Ton image ici */
+            background-size: cover;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+        .hero-card {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 2rem;
+            border-radius: 30px;
+            display: inline-block;
+            box-shadow: var(--rd-soft-shadow);
+        }
+
+        /* --- Search & Filters --- */
+        .search-container {
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+        }
+        .main-search-bar {
+            border: none;
+            border-radius: 50px;
+            padding: 1.5rem 2rem;
+            box-shadow: var(--rd-soft-shadow);
+            font-size: 1.2rem;
+        }
+        .filter-badge {
+            background-color: white;
+            border: 1px solid #eee;
+            border-radius: 20px;
+            padding: 8px 20px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .filter-badge:hover, .filter-badge.active {
+            background-color: var(--rd-brown);
+            color: white;
+        }
+
+        /* --- Hike Cards --- */
+        .hike-card {
+            background: white;
+            border: none;
+            border-radius: 25px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            box-shadow: var(--rd-soft-shadow);
+            margin-bottom: 30px;
+        }
+        .hike-card:hover {
+            transform: translateY(-5px);
+        }
+        .hike-img {
+            height: 200px;
+            object-fit: cover;
+        }
+        .badge-difficulty {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--rd-pastel-green);
+            color: white;
+            border-radius: 12px;
+            padding: 5px 12px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #EFE5D8;
+            padding: 60px 0 20px;
+            margin-top: 80px;
+            position: relative;
+        }
+        .footer-walking-img {
+            position: absolute;
+            top: -85px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 800px;
+            pointer-events: none;
+        }

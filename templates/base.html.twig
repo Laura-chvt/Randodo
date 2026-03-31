@@ -21,4 +21,7 @@
     <body>
         {% block body %}{% endblock %}
     </body>
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
 </html>
