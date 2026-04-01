@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<section class="hero-section">
+    <div class="container">
+        <div class="hero-card">
+            <h1 class="display-4 fw-bold">Explorez l'Alsace en douceur</h1>
+            <p class="lead">Trouvez la randonnée parfaite pour vous et vos proches.</p>
+        </div>
+    </div>
+</section>
+
+<section class="container search-container">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <input type="text" class="form-control main-search-bar" placeholder="Où voulez-vous marcher ? (ex: Ribeauvillé, Lac Blanc...)">
+            
+            <div class="mt-4 d-flex flex-wrap justify-content-center">
+                <select class="filter-badge border-0 shadow-sm">
+                    <option>Difficulté</option>
+                    <option>Facile</option>
+                    <option>Moyen</option>
+                    <option>Sportif</option>
+                </select>
+                <select class="filter-badge border-0 shadow-sm">
+                    <option>Famille ?</option>
+                    <option>Oui</option>
+                    <option>Non</option>
+                </select>
+                <div class="filter-badge shadow-sm">Durée max</div>
+                <div class="filter-badge shadow-sm">Dénivelé max</div>
+                <div class="filter-badge shadow-sm">Longueur max</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<main class="container mt-5 pt-4">
+    <h2 class="mb-4">Nos randonnées préférées</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="hike-card position-relative">
+                <span class="badge-difficulty">Facile</span>
+                <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=500" class="hike-img w-100" alt="Rando">
+                <div class="p-3 text-center">
+                    <h5 class="fw-bold">Le Sentier des Géants</h5>
+                    <p class="text-muted small">Alsace du Nord • 2h30 • 5km</p>
+                    <a href="#" class="btn btn-sm btn-outline-dark rounded-pill px-4">Découvrir</a>
+                </div>
+            </div>
+        </div>
+        </div>
+</main>
+{% endblock %}

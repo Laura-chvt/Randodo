@@ -11,7 +11,7 @@ class Hike
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column (name: 'hike_id')]
+    #[ORM\Column(name: 'hike_id')]
     private ?int $id = null;
 
     #[ORM\Column(name: 'hike_name', length: 255)]
