@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\HikeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -37,6 +39,27 @@ class Hike
 
     #[ORM\Column(name: 'hike_thumbnail', length: 50, nullable: true)]
     private ?string $thumbnail = null;
+    
+    /**
+     * @var Collection<int, Comment>
+     */
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'hike')]
+    private Collection $comment;
+
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'favourite')]
+    private Collection $favourite;
+
+    #[ORM\ManyToOne(targetEntity: Location::class, inversedBy: 'hikes')]
+    private ?Location $location = null;
+
+    public function __construct()
+    {
+        $this->comment = new ArrayCollection();
+        $this->favourite = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -135,6 +158,75 @@ class Hike
     public function setThumbnail(?string $thumbnail): static
     {
         $this->thumbnail = $thumbnail;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComment(): Collection
+    {
+        return $this->comment;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comment->contains($comment)) {
+            $this->comment->add($comment);
+            $comment->setHike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comment->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getHike() === $this) {
+                $comment->setHike(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getFavourite(): Collection
+    {
+        return $this->favourite;
+    }
+
+    public function addFavourite(User $favourite): static
+    {
+        if (!$this->favourite->contains($favourite)) {
+            $this->favourite->add($favourite);
+            $favourite->addFavourite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavourite(User $favourite): static
+    {
+        if ($this->favourite->removeElement($favourite)) {
+            $favourite->removeFavourite($this);
+        }
+
+        return $this;
+    }
+
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?Location $location): static
+    {
+        $this->location = $location;
 
         return $this;
     }

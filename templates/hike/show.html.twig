@@ -4,6 +4,119 @@
 
 {% block body %}
 
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-12">
+            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200" alt="Sommet des Vosges" class="hike-header-img">
+        </div>
+    </div>
 
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <article class="hike-main-card">
+                <div class="d-flex justify-content-between align-items-start mb-4 flex-wrap">
+                    <div>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-2">
+                                <li class="breadcrumb-item"><a href="#" class="text-muted">Alsace</a></li>
+                                <li class="breadcrumb-item active">Ribeauvillé</li>
+                            </ol>
+                        </nav>
+                        <h1 class="fw-bold display-5 mb-2">Le Sentier des Trois Châteaux</h1>
+                        <span class="badge-family"><i class="bi bi-people-fill"></i> Idéal en famille</span>
+                    </div>
+                    <div class="mt-3 mt-lg-0 d-flex gap-2">
+                        <button class="btn btn-action btn-fav"><i class="bi bi-heart"></i> Favoris</button>
+                        <button class="btn btn-action btn-done" data-bs-toggle="modal" data-bs-target="#doneModal">
+                            <i class="bi bi-check-circle"></i> Marquée faite
+                        </button>
+                    </div>
+                </div>
+                <div class="row g-3 mb-5">
+                    <div class="col-6 col-md-3">
+                        <div class="info-box">
+                            <i class="bi bi-stopwatch"></i>
+                            <small class="text-muted">Temps</small>
+                            <div class="fw-bold">3h 30min</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="info-box">
+                            <i class="bi bi-graph-up-arrow"></i>
+                            <small class="text-muted">Dénivelé</small>
+                            <div class="fw-bold">+450m</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="info-box">
+                            <i class="bi bi-reception-3"></i>
+                            <small class="text-muted">Difficulté</small>
+                            <div class="fw-bold">Intermédiaire</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="info-box">
+                            <i class="bi bi-geo-alt"></i>
+                            <small class="text-muted">GPS</small>
+                            <div class="fw-bold" style="font-size: 0.8rem;">48.192, 7.321</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-5">
+                    <div class="col-md-8">
+                        <h3 class="fw-bold mb-3">Description du parcours</h3>
+                        <div class="lead-text" style="line-height: 1.8;">
+                            <p>Cette randonnée emblématique au départ de Ribeauvillé vous emmène à la découverte des châteaux du Girsberg, de Saint-Ulrich et du Haut-Ribeaupierre. Le sentier serpente à travers les vignobles avant de s'enfoncer dans une forêt de pins apaisante.</p>
+                            <p><strong>Instructions :</strong> Suivre le balisage "rectangle rouge". Après le deuxième château, le sentier devient un peu plus escarpé. N'oubliez pas de vous arrêter au point de vue sur la plaine d'Alsace, c'est l'endroit parfait pour un petit goûter !</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-4 bg-light rounded-4 border-dashed">
+                            <h5 class="fw-bold mb-3"><i class="bi bi-info-circle"></i> À savoir</h5>
+                            <ul class="list-unstyled small">
+                                <li class="mb-2">🚗 Parking gratuit Place de la République.</li>
+                                <li class="mb-2">🐕 Chiens admis en laisse.</li>
+                                <li class="mb-2">🥾 Chaussures de marche conseillées.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <hr class="my-5 opacity-25">
+                <section class="comment-section">
+                    <h3 class="fw-bold mb-4">Avis des randonneurs (12)</h3>
+                    <form class="mb-5">
+                        <div class="mb-3">
+                            <textarea class="form-control" rows="3" placeholder="Partagez votre expérience..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-dark rounded-pill px-4">Publier mon avis</button>
+                    </form>
+                    <div class="comment-card">
+                        <div class="d-flex justify-content-between mb-2">
+                            <strong>Sophie_67</strong>
+                            <small class="text-muted">Il y a 2 jours</small>
+                        </div>
+                        <p class="mb-0 small">Superbe balade ! Les châteaux sont magnifiques sous le soleil de printemps. Chemin bien entretenu.</p>
+                    </div>
+                </section>
+            </article>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="doneModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0" style="border-radius: 30px;">
+            <div class="modal-body p-4 text-center">
+                <h4 class="fw-bold mb-3">Bravo pour cette rando !</h4>
+                <p>Quand avez-vous parcouru ce sentier ?</p>
+                <input type="date" class="form-control mb-4">
+                <div class="d-grid gap-2">
+                    <button class="btn btn-dark rounded-pill py-2">Enregistrer dans mon carnet</button>
+                    <button class="btn btn-link text-muted" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

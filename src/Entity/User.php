@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -36,6 +38,24 @@ class User
 
     #[ORM\Column(name: 'user_role')]
     private array $role = [];
+
+    /**
+     * @var Collection<int, Comment>
+     */
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'userComment')]
+    private Collection $comment;
+
+    /**
+     * @var Collection<int, Hike>
+     */
+    #[ORM\ManyToMany(targetEntity: Hike::class, inversedBy: 'favourite')]
+    private Collection $favourite;
+
+    public function __construct()
+    {
+        $this->comment = new ArrayCollection();
+        $this->favourite = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -134,6 +154,60 @@ class User
     public function setRole(array $role): static
     {
         $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComment(): Collection
+    {
+        return $this->comment;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comment->contains($comment)) {
+            $this->comment->add($comment);
+            $comment->setUserComment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comment->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getUserComment() === $this) {
+                $comment->setUserComment(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Hike>
+     */
+    public function getFavourite(): Collection
+    {
+        return $this->favourite;
+    }
+
+    public function addFavourite(Hike $favourite): static
+    {
+        if (!$this->favourite->contains($favourite)) {
+            $this->favourite->add($favourite);
+        }
+
+        return $this;
+    }
+
+    public function removeFavourite(Hike $favourite): static
+    {
+        $this->favourite->removeElement($favourite);
 
         return $this;
     }

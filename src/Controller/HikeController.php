@@ -16,7 +16,8 @@ final class HikeController extends AbstractController
         $arrHike = $hikeRepository->findAll();
 
         return $this->render('hike/index.html.twig', [
-            'controller_name' => 'HikeController',
+            'controller_name'   => 'HikeController',
+            'hikeList'          => '$arrHike'
         ]);
     }
 
