@@ -11,13 +11,13 @@ class Comment
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: 'comment_id')]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'comment_date')]
     private ?\DateTime $date = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(name: 'comment_content', type: Types::TEXT)]
     private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'comment')]

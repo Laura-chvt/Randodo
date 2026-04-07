@@ -6,38 +6,33 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+#[ORM\Table(name: '`user`')]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name:'user_id')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'user_name', length: 100)]
-    private ?string $name = null;
+    #[ORM\Column(name: 'user_mail', length: 180)]
+    private ?string $email = null;
 
-    #[ORM\Column(name: 'user_firstname', length: 100)]
-    private ?string $firstname = null;
-
-    #[ORM\Column(name: 'user_image', length: 150)]
-    private ?string $image = null;
-
-    #[ORM\Column(name: 'user_mail', length: 100)]
-    private ?string $mail = null;
-
-    #[ORM\Column(name: 'user_password', length: 255)]
-    private ?string $password = null;
-
-    #[ORM\Column(name: 'user_description', length: 255, nullable: true)]
-    private ?string $description = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
-
+    /**
+     * @var list<string> The user roles
+     */
     #[ORM\Column(name: 'user_role')]
-    private array $role = [];
+    private array $roles = [];
+
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column(name: 'user_password')]
+    private ?string $password = null;
 
     /**
      * @var Collection<int, Comment>
@@ -48,8 +43,26 @@ class User
     /**
      * @var Collection<int, Hike>
      */
+    #[ORM\JoinTable('user_hike')]
+    #[ORM\JoinColumn(name: 'hike_user_id', referencedColumnName: 'user_id')]
+    #[ORM\InverseJoinColumn(name: 'user_hike', referencedColumnName: 'hike_id')]
     #[ORM\ManyToMany(targetEntity: Hike::class, inversedBy: 'favourite')]
     private Collection $favourite;
+
+    #[ORM\Column(name: 'user_name', length: 100)]
+    private ?string $name = null;
+
+    #[ORM\Column(name: 'user_firstname', length: 100)]
+    private ?string $firstname = null;
+
+    #[ORM\Column(name: 'user_image', length: 150)]
+    private ?string $image = null;
+
+    #[ORM\Column(name: 'user_description', length: 255, nullable: true)]
+    private ?string $description = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $created_at = null;
 
     public function __construct()
     {
@@ -62,54 +75,53 @@ class User
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getEmail(): ?string
     {
-        return $this->name;
+        return $this->email;
     }
 
-    public function setName(string $name): static
+    public function setEmail(string $email): static
     {
-        $this->name = $name;
+        $this->email = $email;
 
         return $this;
     }
 
-    public function getFirstname(): ?string
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
     {
-        return $this->firstname;
+        return (string) $this->email;
     }
 
-    public function setFirstname(string $firstname): static
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
     {
-        $this->firstname = $firstname;
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    /**
+     * @param list<string> $roles
+     */
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
 
         return $this;
     }
 
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(string $image): static
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    public function getMail(): ?string
-    {
-        return $this->mail;
-    }
-
-    public function setMail(string $mail): static
-    {
-        $this->mail = $mail;
-
-        return $this;
-    }
-
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
     public function getPassword(): ?string
     {
         return $this->password;
@@ -122,42 +134,16 @@ class User
         return $this;
     }
 
-    public function getDescription(): ?string
+    /**
+     * Ensure the session doesn't contain actual password hashes by CRC32C-hashing them, as supported since Symfony 7.3.
+     */
+    public function __serialize(): array
     {
-        return $this->description;
+        $data = (array) $this;
+        $data["\0" . self::class . "\0password"] = hash('crc32c', $this->password);
+        
+        return $data;
     }
-
-    public function setDescription(?string $description): static
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    public function getRole(): array
-    {
-        return $this->role;
-    }
-
-    public function setRole(array $role): static
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Comment>
      */
@@ -208,6 +194,66 @@ class User
     public function removeFavourite(Hike $favourite): static
     {
         $this->favourite->removeElement($favourite);
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): static
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    {
+        $this->created_at = $created_at;
 
         return $this;
     }
