@@ -3,25 +3,30 @@
 namespace App\Controller;
 
 use App\Entity\Hike;
+use App\Form\HikeCreateFormType;
 use App\Repository\HikeRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[Route('/hike', name: 'app_hike_')]
 final class HikeController extends AbstractController
 {
-    #[Route('/hike', name: 'app_hike')]
+    #[Route('/', name: 'index')]
     public function index(HikeRepository $hikeRepository): Response
     {
         $arrHike = $hikeRepository->findAll();
 
         return $this->render('hike/index.html.twig', [
             'controller_name'   => 'HikeController',
-            'hikeList'          => '$arrHike'
+            'hikeList'          => $arrHike
         ]);
     }
 
-     #[Route('/hike/{id<\d+>}', name: 'app_hike_show')]
+     #[Route('{id<\d+>}', name: 'show')]
     public function show(Hike $hike): Response
     {
 
@@ -30,5 +35,58 @@ final class HikeController extends AbstractController
             'hike'       => $hike
         ]);
     }
+
+    #[Route('/create', name: 'create')]
+    //#[IsGranted('ROLE_USER')] // A CHANGER QUAND J'AI CREE LES ROLES
+    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    {
+
+        $objNewHike = new Hike();
+
+        $createForm = $this->createForm(HikeCreateFormType::class, $objNewHike);
+        $createForm->handleRequest($request);
+
+        if($createForm->isSubmitted() && $createForm->isValid()) {
+
+
+            $entityManager->persist($objNewHike);
+            $entityManager->flush();
+
+            $this->addFlash('success', "La randonnée a bien été créée");
+
+            return $this->redirectToRoute('app_hike_show', [
+                'id' => $objNewHike->getId()
+            ]);
+        }
+
+        return $this->render('hike/form.html.twig', [
+            'createForm'    => $createForm
+        ]);
+    }
+
+     #[Route('/{id<\d+>}/update', name: 'update')] 
+    //#[IsGranted('ROLE_USER')] //A CHANGER QUAND J'AI CREE LES ROLES
+    public function update(Hike $hike, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        
+        $updateForm = $this->createForm(HikeCreateFormType::class, $hike);
+        $updateForm->handleRequest($request);
+        if($updateForm->isSubmitted() && $updateForm->isValid()) {
+
+            $entityManager->flush();
+
+            $this->addFlash('success', "La randonnée a bien été modifiée");
+
+            return $this->redirectToRoute('app_hike_show', [
+                'id' => $hike->getId()
+            ]);
+        }
+
+        return $this->render('hike/form.html.twig', [
+            'createForm'    => $updateForm
+        ]);
+    }
+
+    //Faudra faire un delete quand même
 
 }

@@ -43,7 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Hike>
      */
-    #[ORM\JoinTable('user_hike')]
+    #[ORM\JoinTable(name: 'user_hike')]
     #[ORM\JoinColumn(name: 'hike_user_id', referencedColumnName: 'user_id')]
     #[ORM\InverseJoinColumn(name: 'user_hike', referencedColumnName: 'hike_id')]
     #[ORM\ManyToMany(targetEntity: Hike::class, inversedBy: 'favourite')]

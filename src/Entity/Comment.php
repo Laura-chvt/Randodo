@@ -21,9 +21,11 @@ class Comment
     private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'comment')]
+    #[ORM\JoinColumn(name: 'hike_id', referencedColumnName: 'hike_id')]
     private ?Hike $hike = null;
 
     #[ORM\ManyToOne(inversedBy: 'comment')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     private ?User $userComment = null;
 
     public function getId(): ?int

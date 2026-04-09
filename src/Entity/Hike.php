@@ -25,7 +25,7 @@ class Hike
     #[ORM\Column (name: 'hike_time')]
     private ?int $time = null;
 
-    #[ORM\Column(name: 'hike_leveel', length: 15)]
+    #[ORM\Column(name: 'hike_level', length: 15)]
     private ?string $level = null;
 
     #[ORM\Column(name: 'hike_length')]
@@ -53,6 +53,7 @@ class Hike
     private Collection $favourite;
 
     #[ORM\ManyToOne(targetEntity: Location::class, inversedBy: 'hikes')]
+    #[ORM\JoinColumn(name: 'location_id', referencedColumnName: 'location_id')]
     private ?Location $location = null;
 
     public function __construct()
