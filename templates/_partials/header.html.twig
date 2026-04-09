@@ -7,13 +7,13 @@
             <a href="#" class="btn btn-outline-brown rounded-pill px-4">Mon Compte</a>
         </div>
         <div class="ms-auto">
-            <a href="#" class="btn btn-outline-brown rounded-pill px-4">S'inscrire</a>
+            <a href="{{ path('app_register') }}" class="btn btn-outline-brown rounded-pill px-4">S'inscrire</a>
         </div>
         <div class="ms-auto">
-            <a href="#" class="btn btn-outline-brown rounded-pill px-4">Se connecter</a>
+            <a href="{{ path('app_login') }}" class="btn btn-outline-brown rounded-pill px-4">Se connecter</a>
         </div>
         <div class="ms-auto">
-            <a href="#" class="btn btn-outline-brown rounded-pill px-4">Se déconnecter</a>
+            <a href="{{ path('app_logout') }}" class="btn btn-outline-brown rounded-pill px-4">Se déconnecter</a>
         </div>
         <div class="ms-auto">
             <a href="{{ path('app_hike_create') }}" class="btn btn-outline-brown rounded-pill px-4">Ajouter une Randonnée</a>

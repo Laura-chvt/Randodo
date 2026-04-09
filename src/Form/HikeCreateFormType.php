@@ -7,9 +7,12 @@ use App\Entity\Location;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,35 +23,44 @@ class HikeCreateFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom de la randonnée'
+                'label'     => 'Nom de la randonnée'
             ])
             
-            ->add('height', NumberType::class, [
-                'label' => 'Dénivelé de la randonnée (en mètres)'
+            ->add('height', IntegerType::class, [
+                'label'     => 'Dénivelé de la randonnée (en mètres)'
             ])
 
             ->add('time', NumberType::class, [
-                'label' => 'Durée de la randonnée (en minutes)'
+                'label'     => 'Durée de la randonnée (en minutes)'
             ])
 
-            ->add('level', TextType::class, [
-                'label' => 'Niveau de la randonnée'
+            ->add('level', ChoiceType::class, [
+                'label'     => 'Niveau de la randonnée',
+                'choices'   => [
+                    'Facile'    => 'Facile',
+                    'Moyen'     => 'Moyen',
+                    'Difficile' => 'Difficile',
+                    ]
             ])
 
             ->add('length', NumberType::class, [
-                'label' => 'Longueur de la randonnée (en km)'
+                'label'     => 'Longueur de la randonnée (en km)'
             ])
 
             ->add('family', CheckboxType::class, [
-                'label'     => "La randonnée est-elle accessible aux familles ?"
+                'label'     => "La randonnée est-elle accessible aux familles ?",
+                'required'  => false
             ])
 
-            ->add('description', TextType::class, [
-                'label' => 'Description de la randonnée'
+            ->add('description', TextareaType::class, [
+                'label'     => 'Description de la randonnée',
+                'required'  => false
             ])
 
             ->add('thumbnail', FileType::class, [
-                'label' => "Miniature de la randonnée"
+                'label'     => "Miniature de la randonnée",
+                'mapped'    => false,
+                'required'  => false,
             ])
 
             ->add('location', EntityType::class, [
@@ -59,7 +71,7 @@ class HikeCreateFormType extends AbstractType
             ])
 
             ->add('submit', SubmitType::class, [
-                'label' => 'Ajouter'
+                'label'     => 'Ajouter'
             ])
         ;
     }
