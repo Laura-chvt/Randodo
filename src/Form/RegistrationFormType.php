@@ -9,6 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -31,18 +33,19 @@ class RegistrationFormType extends AbstractType
                 'label'     => 'Prénom'
             ])
             
-            ->add('lastname', TextType::class, [
+            ->add('name', TextType::class, [
                 'label'     => 'Nom de famille'
             ])
 
-            ->add('thumbnail', FileType::class, [
+            ->add('image', FileType::class, [
                 'label'     => "Photo de profil",
                 'mapped'    => false,
                 'required'  => false,
             ])
 
-            ->add('description', TextType::class, [
-                'label'     => 'Courte présentation'
+            ->add('description', TextareaType::class, [
+                'label'     => 'Courte présentation',
+                'required' => false
             ])
             
             ->add('plainPassword', RepeatedType::class, [
@@ -60,7 +63,6 @@ class RegistrationFormType extends AbstractType
                     new Length(
                         min: 12,
                         minMessage: 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
                         max: 4096,
                     ),
                     new PasswordStrength(),
@@ -75,6 +77,10 @@ class RegistrationFormType extends AbstractType
                         message: "Il faut autoriser notre politique de confidentialité pour s'inscrire",
                     ),
                 ],
+            ])
+
+            ->add('submit', SubmitType::class, [
+                'label'     => 'Valider'
             ])
         ;
     }

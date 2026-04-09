@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page de l'utilisateur{% endblock %}
+
+{% block body %}
+<main class="container flex-grow-1 my-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+
+            <section class="profile-section">
+                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200" alt="Photo de profil" class="profile-img rounded-circle mb-3">
+                <h1 class="fw-bold h2 mb-2">{{ user.firstname }}{{ user.name }}</h1>
+                <p class="text-muted mx-auto" style="max-width: 500px;">
+                    {{ user.description }}
+                </p>
+                <a href="{{ path('app_user_update') }}" class="btn btn-sm btn-outline-brown mt-2"><i class="bi bi-pencil-square"></i> Modifier le profil</a>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-4 h4 d-flex align-items-center">
+                    <i class="bi bi-suit-heart-fill me-2" style="color: var(--rd-pastel-pink);"></i> Mes favoris
+                </h3>
+
+                <a href="#" class="card fav-card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-3 col-sm-4 fav-img-container">
+                            <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=500" class="fav-img" alt="Sentier">
+                        </div>
+                        <div class="col-md-8 col-sm-6">
+                            <div class="card-body py-3">
+                                <h5 class="card-title fw-bold mb-2">Le Sentier des Trois Châteaux</h5>
+                                <div class="d-flex flex-wrap gap-3 text-muted small align-items-center">
+                                    <span><i class="bi bi-stopwatch"></i> 3h 30</span>
+                                    <span><i class="bi bi-signpost-split"></i> 11 km</span>
+                                    <span class="badge-difficulty">Intermédiaire</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-sm-2 d-none d-sm-flex align-items-center justify-content-center">
+                            <i class="bi bi-chevron-right fs-4 text-muted opacity-50"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#" class="card fav-card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-3 col-sm-4 fav-img-container">
+                            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=500" class="fav-img" alt="Montagne">
+                        </div>
+                        <div class="col-md-8 col-sm-6">
+                            <div class="card-body py-3">
+                                <h5 class="card-title fw-bold mb-2">Tour du Lac Blanc</h5>
+                                <div class="d-flex flex-wrap gap-3 text-muted small align-items-center">
+                                    <span><i class="bi bi-stopwatch"></i> 2h 15</span>
+                                    <span><i class="bi bi-signpost-split"></i> 6.5 km</span>
+                                    <span class="badge-difficulty">Facile</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-sm-2 d-none d-sm-flex align-items-center justify-content-center">
+                            <i class="bi bi-chevron-right fs-4 text-muted opacity-50"></i>
+                        </div>
+                    </div>
+                </a>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="fw-bold mb-4 h4 d-flex align-items-center">
+                    <i class="bi bi-check-circle-fill me-2" style="color: var(--rd-pastel-green);"></i> Mon carnet de route
+                </h3>
+
+                <div class="done-list-container">
+                    <div class="done-item d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        <div>
+                            <h6 class="fw-bold mb-1 m-0">Boucle de l'Illwald</h6>
+                            <small class="text-muted"><i class="bi bi-stopwatch"></i> 1h 45 • <i class="bi bi-signpost-split"></i> 5 km</small>
+                        </div>
+                        <div>
+                            <span class="badge-date">14 Avril 2026</span>
+                        </div>
+                    </div>
+
+                    <div class="done-item d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        <div>
+                            <h6 class="fw-bold mb-1 m-0">Mont Sainte-Odile par les pèlerins</h6>
+                            <small class="text-muted"><i class="bi bi-stopwatch"></i> 4h 00 • <i class="bi bi-signpost-split"></i> 13.2 km</small>
+                        </div>
+                        <div>
+                            <span class="badge-date">02 Mars 2026</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+{% endblock %}
