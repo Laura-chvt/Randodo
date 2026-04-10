@@ -19,14 +19,26 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mb-2">
                                 <li class="breadcrumb-item"><a href="#" class="text-muted">Alsace</a></li>
-                                <li class="breadcrumb-item active">Ribeauvillé</li>
+                                <li class="breadcrumb-item active">{{ hike.location.name }}</li>
                             </ol>
                         </nav>
-                        <h1 class="fw-bold display-5 mb-2">Le Sentier des Trois Châteaux</h1>
+                        <h1 class="fw-bold display-5 mb-2">{{ hike.name }}</h1>
+                        {% if hike.family %}
                         <span class="badge-family"><i class="bi bi-people-fill"></i> Idéal en famille</span>
+                        {% endif %}
                     </div>
                     <div class="mt-3 mt-lg-0 d-flex gap-2">
-                        <button class="btn btn-action btn-fav"><i class="bi bi-heart"></i> Favoris</button>
+                        {% set isFavorite = false %}
+                        {% if app.user and hike in app.user.favourite %}
+                            {% set isFavorite = true %}
+                        {% endif %}
+                        <a href="{{ path('app_hike_favorite', {id: hike.id}) }}" class="btn btn-action btn-fav">
+                            {% if isFavorite %}
+                                <i class="bi bi-heart-fill text-danger"></i> Retirer des favoris
+                            {% else %}
+                                <i class="bi bi-heart"></i> Ajouter aux favoris
+                            {% endif %}
+                        </a>
                         <button class="btn btn-action btn-done" data-bs-toggle="modal" data-bs-target="#doneModal">
                             <i class="bi bi-check-circle"></i> Marquée faite
                         </button>
@@ -37,28 +49,28 @@
                         <div class="info-box">
                             <i class="bi bi-stopwatch"></i>
                             <small class="text-muted">Temps</small>
-                            <div class="fw-bold">3h 30min</div>
+                            <div class="fw-bold">{{ hike.time }}min</div>
                         </div>
                     </div>
                     <div class="col-6 col-md-3">
                         <div class="info-box">
                             <i class="bi bi-graph-up-arrow"></i>
                             <small class="text-muted">Dénivelé</small>
-                            <div class="fw-bold">+450m</div>
+                            <div class="fw-bold">{{ hike.height }}m</div>
                         </div>
                     </div>
                     <div class="col-6 col-md-3">
                         <div class="info-box">
                             <i class="bi bi-reception-3"></i>
                             <small class="text-muted">Difficulté</small>
-                            <div class="fw-bold">Intermédiaire</div>
+                            <div class="fw-bold">{{ hike.level }}</div>
                         </div>
                     </div>
                     <div class="col-6 col-md-3">
                         <div class="info-box">
                             <i class="bi bi-geo-alt"></i>
                             <small class="text-muted">GPS</small>
-                            <div class="fw-bold" style="font-size: 0.8rem;">48.192, 7.321</div>
+                            <div class="fw-bold" style="font-size: 0.8rem;">{{ hike.location.gps }}</div>
                         </div>
                     </div>
                 </div>
@@ -67,8 +79,7 @@
                     <div class="col-md-8">
                         <h3 class="fw-bold mb-3">Description du parcours</h3>
                         <div class="lead-text" style="line-height: 1.8;">
-                            <p>Cette randonnée emblématique au départ de Ribeauvillé vous emmène à la découverte des châteaux du Girsberg, de Saint-Ulrich et du Haut-Ribeaupierre. Le sentier serpente à travers les vignobles avant de s'enfoncer dans une forêt de pins apaisante.</p>
-                            <p><strong>Instructions :</strong> Suivre le balisage "rectangle rouge". Après le deuxième château, le sentier devient un peu plus escarpé. N'oubliez pas de vous arrêter au point de vue sur la plaine d'Alsace, c'est l'endroit parfait pour un petit goûter !</p>
+                            {{ hike.description }}
                         </div>
                     </div>
                     <div class="col-md-4">

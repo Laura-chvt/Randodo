@@ -3,18 +3,21 @@
         <a class="navbar-brand" href="{{ path('app_hike_index') }}">
             <strong>Randodo</strong>
         </a>
+        {% if app.user %}
         <div class="ms-auto">
-            <a href="#" class="btn btn-outline-brown rounded-pill px-4">Mon Compte</a>
+            <a href="{{ path('app_user_show', {id: app.user.id}) }}" class="btn btn-outline-brown rounded-pill px-4">Mon Compte</a>
         </div>
+        <div class="ms-auto">
+            <a href="{{ path('app_logout') }}" class="btn btn-outline-brown rounded-pill px-4">Se déconnecter</a>
+        </div>
+        {% else %}
         <div class="ms-auto">
             <a href="{{ path('app_register') }}" class="btn btn-outline-brown rounded-pill px-4">S'inscrire</a>
         </div>
         <div class="ms-auto">
             <a href="{{ path('app_login') }}" class="btn btn-outline-brown rounded-pill px-4">Se connecter</a>
         </div>
-        <div class="ms-auto">
-            <a href="{{ path('app_logout') }}" class="btn btn-outline-brown rounded-pill px-4">Se déconnecter</a>
-        </div>
+        {% endif %}
         <div class="ms-auto">
             <a href="{{ path('app_hike_create') }}" class="btn btn-outline-brown rounded-pill px-4">Ajouter une Randonnée</a>
         </div>

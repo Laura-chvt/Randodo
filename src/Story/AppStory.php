@@ -14,6 +14,14 @@ final class AppStory extends Story
     public function build(): void
     {
         UserFactory::createMany(20);
+
+        UserFactory::createOne([
+            'email'     => 'teste@test.fr',
+            'roles'     => ['ROLE_ADMIN'],
+            'name'  => 'test',
+            'firstname' => 'test'
+        ]);
+
         $locationsData = [
             'ballons' => ['name' => 'Ballons des Vosges', 'gps' => '47.9000, 7.0000'],
             'nord'    => ['name' => 'Vosges du Nord', 'gps' => '48.9500, 7.4833'],

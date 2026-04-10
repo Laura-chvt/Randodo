@@ -89,4 +89,29 @@ final class HikeController extends AbstractController
 
     //Faudra faire un delete quand même
 
+    #[Route('/{id<\d+>}/favorite', name: 'favorite')]
+    public function toggleFavorite(Hike $hike, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+        if (!$user instanceof \App\Entity\User) {
+            throw new \LogicException('L\'utilisateur n\'est pas du bon type.');
+        }
+        
+        if ($user->getFavourite()->contains($hike)) {
+            $user->removeFavourite($hike);
+            $this->addFlash('success', 'La randonnée a été retirée de vos favoris.');
+        } else {
+            $user->addFavourite($hike);
+            $this->addFlash('success', 'La randonnée a été ajoutée à vos favoris !');
+        }
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_hike_show', [
+            'id' => $hike->getId()
+        ]);
+    }
+
 }

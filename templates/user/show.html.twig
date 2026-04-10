@@ -21,18 +21,19 @@
                     <i class="bi bi-suit-heart-fill me-2" style="color: var(--rd-pastel-pink);"></i> Mes favoris
                 </h3>
 
-                <a href="#" class="card fav-card mb-3">
+                {% for favHike in app.user.favourite %}
+                <a href="{{ path('app_hike_show', {id: favHike.id}) }}" class="card fav-card mb-3 text-decoration-none text-dark">
                     <div class="row g-0">
                         <div class="col-md-3 col-sm-4 fav-img-container">
-                            <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=500" class="fav-img" alt="Sentier">
+                            <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=500" class="fav-img object-fit-cover w-100 h-100" alt="{{ favHike.name }}">
                         </div>
                         <div class="col-md-8 col-sm-6">
                             <div class="card-body py-3">
-                                <h5 class="card-title fw-bold mb-2">Le Sentier des Trois Châteaux</h5>
+                                <h5 class="card-title fw-bold mb-2">{{ favHike.name }}</h5>
                                 <div class="d-flex flex-wrap gap-3 text-muted small align-items-center">
-                                    <span><i class="bi bi-stopwatch"></i> 3h 30</span>
-                                    <span><i class="bi bi-signpost-split"></i> 11 km</span>
-                                    <span class="badge-difficulty">Intermédiaire</span>
+                                    <span><i class="bi bi-stopwatch"></i> {{ favHike.time }} min</span>
+                                    <span><i class="bi bi-signpost-split"></i> {{ favHike.length }} km</span>
+                                    <span class="badge bg-secondary">{{ favHike.level }}</span>
                                 </div>
                             </div>
                         </div>
@@ -41,27 +42,13 @@
                         </div>
                     </div>
                 </a>
+                {% else %}
+                <div class="alert alert-light text-center text-muted">
+                    Vous n'avez pas encore de randonnée favorite. <br>
+                    <a href="{{ path('app_hike_index') }}">Découvrir les sentiers</a>
+                </div>
+                {% endfor %}
 
-                <a href="#" class="card fav-card mb-3">
-                    <div class="row g-0">
-                        <div class="col-md-3 col-sm-4 fav-img-container">
-                            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=500" class="fav-img" alt="Montagne">
-                        </div>
-                        <div class="col-md-8 col-sm-6">
-                            <div class="card-body py-3">
-                                <h5 class="card-title fw-bold mb-2">Tour du Lac Blanc</h5>
-                                <div class="d-flex flex-wrap gap-3 text-muted small align-items-center">
-                                    <span><i class="bi bi-stopwatch"></i> 2h 15</span>
-                                    <span><i class="bi bi-signpost-split"></i> 6.5 km</span>
-                                    <span class="badge-difficulty">Facile</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-1 col-sm-2 d-none d-sm-flex align-items-center justify-content-center">
-                            <i class="bi bi-chevron-right fs-4 text-muted opacity-50"></i>
-                        </div>
-                    </div>
-                </a>
             </section>
 
             <section class="mb-5">
@@ -80,15 +67,7 @@
                         </div>
                     </div>
 
-                    <div class="done-item d-flex justify-content-between align-items-center flex-wrap gap-3">
-                        <div>
-                            <h6 class="fw-bold mb-1 m-0">Mont Sainte-Odile par les pèlerins</h6>
-                            <small class="text-muted"><i class="bi bi-stopwatch"></i> 4h 00 • <i class="bi bi-signpost-split"></i> 13.2 km</small>
-                        </div>
-                        <div>
-                            <span class="badge-date">02 Mars 2026</span>
-                        </div>
-                    </div>
+                    
                 </div>
             </section>
 
