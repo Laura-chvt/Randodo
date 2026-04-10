@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Hike;
 use App\Form\HikeCreateFormType;
 use App\Repository\HikeRepository;
+use App\Repository\LocationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,8 +22,7 @@ final class HikeController extends AbstractController
         $arrHike = $hikeRepository->findAll();
 
         return $this->render('hike/index.html.twig', [
-            'controller_name'   => 'HikeController',
-            'hikeList'          => $arrHike
+            'hikeList'          => $arrHike,
         ]);
     }
 
