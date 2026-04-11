@@ -12,20 +12,21 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/user', name: 'app_user_')]
 final class UserController extends AbstractController
 {
-    #[Route('/user', name: 'app_user')]
+    #[Route('/', name: 'index')]
     public function index(UserRepository $userRepository): Response
     {
         $arrUsers = $userRepository->findAll();
 
         return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
-            'userList' => $arrUsers
+            'controller_name'   => 'UserController',
+            'userList'          => $arrUsers
         ]);
     }
 
-    #[Route('/user/{id<\d+>}', name: 'app_user_show')]
+    #[Route('/{id<\d+>}', name: 'show')]
     public function show(User $user): Response
     {
 
@@ -34,7 +35,7 @@ final class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/user/{id<\d+>}', name: 'app_user_update')]
+    #[Route('/{id<\d+>/update}', name: 'update')]
     public function update(User $user, Request $request, 
         UserPasswordHasherInterface $userPasswordHasher, 
         EntityManagerInterface $entityManager): Response

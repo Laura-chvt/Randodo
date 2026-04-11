@@ -26,7 +26,7 @@ final class HikeController extends AbstractController
         ]);
     }
 
-     #[Route('{id<\d+>}', name: 'show')]
+     #[Route('/{id<\d+>}', name: 'show')]
     public function show(Hike $hike): Response
     {
 

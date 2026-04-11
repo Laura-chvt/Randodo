@@ -3,6 +3,7 @@
     --rd-brown: #5D4037;
     --rd-brown-light: #8D6E63;
     --rd-pastel-green: #A8C69F;
+    --rd-pastel-red: #E8A5A5;
     --rd-pastel-pink: #F4DADA;
     --rd-soft-shadow: 0 10px 30px rgba(93, 64, 55, 0.08);
 }
@@ -295,4 +296,82 @@ footer {
 .btn-outline-brown:hover {
     background: var(--rd-brown);
     color: white;
+}
+
+/* zonne admin */
+.admin-card {
+    background: white;
+    border-radius: 30px;
+    padding: 30px;
+    box-shadow: var(--rd-soft-shadow);
+    border: 1px solid rgba(93, 64, 55, 0.05);
+    margin-bottom: 40px;
+}
+
+.form-control, .form-select {
+    border-radius: 15px;
+    border: 1px solid #EFE5D8;
+    padding: 10px 15px;
+}
+.form-control:focus, .form-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(168, 198, 159, 0.25);
+    border-color: var(--rd-pastel-green);
+}
+
+.btn-outline-brown {
+    border: 2px solid var(--rd-brown);
+    color: var(--rd-brown);
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+.btn-outline-brown:hover { background-color: var(--rd-brown); color: white; }
+
+.btn-save {
+    background-color: var(--rd-pastel-green);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    transition: opacity 0.3s ease;
+}
+.btn-save:hover { opacity: 0.8; color: white; }
+
+.btn-delete {
+    background-color: var(--rd-pastel-red);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    transition: opacity 0.3s ease;
+}
+.btn-delete:hover { opacity: 0.8; color: white; }
+
+.table-cosy-container {
+    overflow: hidden; 
+    border-radius: 20px;
+    border: 1px solid #EFE5D8;
+}
+.table-cosy { margin-bottom: 0; }
+.table-cosy thead {
+    background-color: #FDFBFA;
+    color: var(--rd-brown-light);
+    font-weight: 600;
+}
+.table-cosy th {
+    border-bottom: 2px solid #EFE5D8;
+    padding: 15px;
+    font-weight: 600;
+}
+.table-cosy td {
+    padding: 15px;
+    vertical-align: middle;
+    border-bottom: 1px solid #FDFBFA;
+}
+.table-cosy tbody tr:hover { background-color: #FDFBFA; }
+.table-cosy tbody tr:last-child td { border-bottom: none; }
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 15px;
 }
