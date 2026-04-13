@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Zut ! Une erreur est survenue{% endblock %}
+
+{% block body %}
+
+{# Accès à la page 404 en mode dev: https://localhost:8000/_error/404 #}
+
+<div class="text-center">
+    <h1>Une erreur est survenue !</h1>
+
+    <img class="w-100" src="{{ asset('images/404.png') }}" alt="">
+</div>
+
+{% endblock %}
