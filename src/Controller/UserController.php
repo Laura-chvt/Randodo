@@ -38,13 +38,9 @@ final class UserController extends AbstractController
     }
 
     #[Route('/{id<\d+>}/update}', name: 'update')]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('PROFILE_EDIT', subject: 'user')]
     public function update(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
-
-        if ($this->getUser() !== $user && !$this->isGranted('ROLE_ADMIN')) {
-            throw $this->createAccessDeniedException("Vous n'avez pas le droit de modifier ce profil.");
-        }
 
         $userForm = $this->createForm(UserInfoFormType::class, $user);
         $userForm->handleRequest($request);

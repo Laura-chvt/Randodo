@@ -13,8 +13,8 @@
                 <p class="text-muted mx-auto" style="max-width: 500px;">
                     {{ user.description }}
                 </p>
-                {% if app.user and app.user.id == user.id %}
-                <a href="{{ path('app_user_update') }}" class="btn btn-sm btn-outline-brown mt-2"><i class="bi bi-pencil-square"></i> Modifier le profil</a>
+                {% if is_granted('PROFILE_EDIT', user) %}
+                <a href="{{ path('app_user_update', {'id': user.id}) }}" class="btn btn-sm btn-outline-brown mt-2"><i class="bi bi-pencil-square"></i> Modifier le profil</a>
                 {% endif %}
             </section>
 
