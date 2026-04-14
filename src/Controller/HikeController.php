@@ -37,7 +37,7 @@ final class HikeController extends AbstractController
     }
 
     #[Route('/create', name: 'create')]
-    //#[IsGranted('ROLE_USER')] // A CHANGER QUAND J'AI CREE LES ROLES
+    //#[IsGranted('ROLE_MODO')] // A ENLEVER EN PROD
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
 
@@ -65,7 +65,7 @@ final class HikeController extends AbstractController
     }
 
      #[Route('/{id<\d+>}/update', name: 'update')] 
-    //#[IsGranted('ROLE_USER')] //A CHANGER QUAND J'AI CREE LES ROLES
+    //#[IsGranted('ROLE_MODO')] // A ENLEVER EN PROD
     public function update(Hike $hike, Request $request, EntityManagerInterface $entityManager): Response
     {
         
@@ -90,6 +90,7 @@ final class HikeController extends AbstractController
     //Faudra faire un delete quand même
 
     #[Route('/{id<\d+>}/favorite', name: 'favorite')]
+    //#[IsGranted('ROLE_USER')] // A ENLEVER EN PROD
     public function toggleFavorite(Hike $hike, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();

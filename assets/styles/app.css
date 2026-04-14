@@ -200,6 +200,20 @@ footer {
     border-color: var(--rd-pastel-green);
 }
 
+.btn-delete {
+    background-color: #E8A5A5;
+    color: white;
+    border: none;
+    transition: 0.3s;
+}
+.btn-delete:hover {
+    background-color: #d68a8a;
+    color: white;
+}
+.border-dashed {
+    border: 2px dashed #EFE5D8;
+}
+
 /* page user show */
 
 .profile-section {

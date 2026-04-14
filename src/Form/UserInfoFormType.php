@@ -2,10 +2,10 @@
 
 namespace App\Form;
 
-use App\Entity\Hike;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,20 +15,13 @@ class UserInfoFormType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('roles')
-            ->add('password')
             ->add('name')
             ->add('firstname')
-            ->add('image')
             ->add('description')
-            ->add('created_at', null, [
-                'widget' => 'single_text'
-            ])
-            ->add('isVerified')
-            ->add('favourite', EntityType::class, [
-                'class' => Hike::class,
-                'choice_label' => 'id',
-                'multiple' => true,
+            ->add('image') 
+            ->add('plainPassword', PasswordType::class, [
+                'mapped' => false,
+                'required' => false,
             ])
         ;
     }

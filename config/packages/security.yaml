@@ -40,6 +40,10 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
+    role_hierarchy:
+        ROLE_MODO:        ROLE_USER
+        ROLE_ADMIN:       ROLE_MODO
+
 when@test:
     security:
         password_hashers:

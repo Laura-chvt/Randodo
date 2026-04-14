@@ -43,6 +43,19 @@
                             <i class="bi bi-check-circle"></i> Marquée faite
                         </button>
                     </div>
+                    {% if is_granted('ROLE_MODO') %}
+                    <div class="admin-actions mb-4 p-3 border-dashed rounded-4 d-flex gap-2 align-items-center">
+                        <a href="{{ path('app_hike_update', {'id': rando.id}) }}" class="btn btn-sm btn-outline-brown rounded-pill px-3">
+                            <i class="bi bi-pencil-fill me-1"></i> Modifier
+                        </a>
+                        <form method="post" action="{{ path('app_hike_delete', {'id': rando.id}) }}" onsubmit="return confirm('Es-tu sûr de vouloir supprimer cette randonnée ?');" style="display:inline-block">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ rando.id) }}">
+                            <button class="btn btn-sm btn-delete rounded-pill px-3">
+                                <i class="bi bi-trash-fill me-1"></i> Supprimer
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
                 </div>
                 <div class="row g-3 mb-5">
                     <div class="col-6 col-md-3">
@@ -86,7 +99,7 @@
                         <div class="p-4 bg-light rounded-4 border-dashed">
                             <h5 class="fw-bold mb-3"><i class="bi bi-info-circle"></i> À savoir</h5>
                             <ul class="list-unstyled small">
-                                <li class="mb-2">🚗 Parking gratuit Place de la République.</li>
+                                <li class="mb-2">🚗 Parking gratuit.</li>
                                 <li class="mb-2">🐕 Chiens admis en laisse.</li>
                                 <li class="mb-2">🥾 Chaussures de marche conseillées.</li>
                             </ul>
