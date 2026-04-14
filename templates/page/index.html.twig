@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Qui sommes-nous ?{% endblock %}
+
+{% block body %}
+<main class="container flex-grow-1 my-5">
+        <div class="row g-5">
+            
+            <div class="col-lg-6">
+                <h1 class="fw-bold display-5 mb-4">La nature Alsacienne,<br>en toute <span class="text-highlight">douceur</span>.</h1>
+                
+                <img src="https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&w=800" alt="Forêt d'Alsace" class="about-image">
+                
+                <div class="pe-lg-4" style="line-height: 1.8; font-size: 1.1rem;">
+                    <p>Bienvenue sur <strong>Randodo</strong> ! Ce projet est né sur les bancs de l'école (littéralement, c'est un projet étudiant !) d'une passion commune pour notre belle région : l'Alsace.</p>
+                    
+                    <p>Nous avons remarqué qu'il était parfois difficile de trouver des randonnées qui ne soient pas pensées que pour les sportifs de haut niveau. Notre objectif ? Créer un espace <strong>cosy, simple et rassurant</strong> pour recenser les balades parfaites pour un dimanche en famille, une sortie entre amis ou une marche tranquille en solo.</p>
+                    
+                    <p>Ici, on ne court pas après le chronomètre, on prend le temps de respirer l'air des sapins, de contempler les ruines de nos châteaux et, surtout, de profiter du moment présent.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-card h-100">
+                    <div class="form-content">
+                        <h2 class="h3 fw-bold mb-2">Une pépite à partager ? Une question à poser ?</h2>
+                        <p class="text-muted mb-4">Vous connaissez un sentier secret ou une balade incontournable ? Suggérez-la nous pour l'ajouter au catalogue Randodo !</p>
+
+                        {{ form_start(contactForm) }}
+                        <div class="mb-4">
+                            {{ form_label(contactForm.name, 'Votre nom', {'label_attr': {'class': 'form-label small fw-bold text-muted'}}) }}
+
+                            {{ form_widget(contactForm.name, {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'placeholder': 'ex : Mystherbe'
+                                }
+                            }) }}
+                            {{ form_errors(contactForm.name) }}
+                        </div>
+
+                        <div class="mb-4">
+                            {{ form_label(contactForm.email, 'Votre adresse email', {'label_attr': {'class': 'form-label small fw-bold text-muted'}}) }}
+                            {{ form_widget(contactForm.email, {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'placeholder': 'ex : Mystherbe@gmail.com'
+                                }
+                            }) }}
+                            {{ form_errors(contactForm.email) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(contactForm.message, 'Votre message', {'label_attr': {'class': 'form-label small fw-bold text-muted'}}) }}
+                            {{ form_widget(contactForm.message, {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'rows': '4',
+                                    'placeholder': 'Ecrivez votre message ou décrivez brièvement le parcours, les points de vue, la durée, la taille...'
+                                }
+                            }) }}
+                            {{ form_errors(contactForm.message) }}
+                        </div>
+                        <button type="submit" class="btn btn-submit-rando shadow-sm">Envoyer</button>
+                    {{ form_end(contactForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

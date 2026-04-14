@@ -7,10 +7,13 @@ use App\Form\HikeCreateFormType;
 use App\Repository\HikeRepository;
 use App\Repository\LocationRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/hike', name: 'app_hike_')]
@@ -37,7 +40,7 @@ final class HikeController extends AbstractController
     }
 
     #[Route('/create', name: 'create')]
-    //#[IsGranted('ROLE_MODO')] // A ENLEVER EN PROD
+    #[IsGranted('ROLE_MODO')]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
 
@@ -65,7 +68,7 @@ final class HikeController extends AbstractController
     }
 
      #[Route('/{id<\d+>}/update', name: 'update')] 
-    //#[IsGranted('ROLE_MODO')] // A ENLEVER EN PROD
+    #[IsGranted('ROLE_MODO')]
     public function update(Hike $hike, Request $request, EntityManagerInterface $entityManager): Response
     {
         
@@ -87,10 +90,26 @@ final class HikeController extends AbstractController
         ]);
     }
 
-    //Faudra faire un delete quand même
+    #[Route('/{id<\d+>}/delete', name: 'delete', methods: ['POST'])]
+    #[IsGranted('ROLE_MODO')]
+    #[IsCsrfTokenValid('delete-hike', '_csrf_token')] //< 1: nom du token, 2: nom de l'input
+    public function delete(Hike $hike, EntityManagerInterface $entityManager, Request $request, LoggerInterface $logger): Response
+    {
+        try {
+            $entityManager->remove($hike);
+            $entityManager->flush();
+            $this->addFlash('success', "Le pokémon a été supprimé");
+        }
+        catch(Exception $exc) {
+            $this->addFlash('danger', "Une erreur est survenue. Réessayez");
+            $logger->error($exc->getMessage());
+        }
+
+        return $this->redirectToRoute('app_pokemon_index');
+    }
 
     #[Route('/{id<\d+>}/favorite', name: 'favorite')]
-    //#[IsGranted('ROLE_USER')] // A ENLEVER EN PROD
+    #[IsGranted('ROLE_USER')]
     public function toggleFavorite(Hike $hike, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
