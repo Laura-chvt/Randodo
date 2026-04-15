@@ -18,7 +18,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HikeCreateFormType extends AbstractType
-{
+{   
+    /**
+    * Formulaire de création de randonnée
+    */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

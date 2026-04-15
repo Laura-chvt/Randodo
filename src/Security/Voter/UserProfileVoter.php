@@ -12,8 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 final class UserProfileVoter extends Voter
 {
-    public const EDIT = 'POST_EDIT';
-    public const VIEW = 'POST_VIEW';
+    public const EDIT = 'PROFILE_EDIT';
 
     public function __construct(private Security $security) {
         

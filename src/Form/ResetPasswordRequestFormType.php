@@ -9,7 +9,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ResetPasswordRequestFormType extends AbstractType
-{
+{   
+    /**
+    * Formulaire de réinitialisation de mot de passe
+    */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

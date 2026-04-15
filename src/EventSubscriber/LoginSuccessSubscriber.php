@@ -6,7 +6,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
 class LoginSuccessSubscriber implements EventSubscriberInterface
-{
+{   
+    /**
+    * Affichage message mlié à l'évenement de connexion
+    */
     public function onLoginSuccessEvent(LoginSuccessEvent $event): void
     {
         $session = $event->getRequest()->getSession();

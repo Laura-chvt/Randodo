@@ -8,7 +8,10 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class AuthController extends AbstractController
-{
+{   
+    /**
+    * Controller et affichage de la page de connexion
+    */
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -24,11 +27,13 @@ class AuthController extends AbstractController
         ]);
     }
 
+    /**
+    * Controller de la déconnexion, redirection home en security.yaml
+    */
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
-        $this->redirectToRoute('app_hike');
         
     }
 }

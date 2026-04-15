@@ -15,12 +15,19 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/user', name: 'app_user_')]
 final class UserController extends AbstractController
-{
+{   
+    /**
+    * Controller et affichage du dashboard admin
+    * Accès : admin
+    */
     #[Route('/', name: 'index')]
     #[IsGranted('ROLE_ADMIN')]
     public function index(UserRepository $userRepository): Response
     {
-        $arrUsers = $userRepository->findAll();
+        $arrUsers = $userRepository->findBy(
+                                    [],                  
+                                    ['name' => 'ASC']
+        );
 
         return $this->render('user/index.html.twig', [
             'controller_name'   => 'UserController',
@@ -28,6 +35,9 @@ final class UserController extends AbstractController
         ]);
     }
 
+    /**
+    * Controller et affichage de la page d'un utilisateur
+    */
     #[Route('/{id<\d+>}', name: 'show')]
     public function show(User $user): Response
     {
@@ -37,7 +47,11 @@ final class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id<\d+>}/update}', name: 'update')]
+    /**
+    * Controller et affichage de la page de modification d'un utilisateur
+    * Accès : utilisateur concerné et admin
+    */
+    #[Route('/{id<\d+>}/update', name: 'update')]
     #[IsGranted('PROFILE_EDIT', subject: 'user')]
     public function update(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
@@ -53,7 +67,7 @@ final class UserController extends AbstractController
             $entityManager->flush();
             $this->addFlash('success', "Votre profil a été mis à jour.");
 
-            return $this->redirectToRoute('app_user', ['id' => $user->getId()]);
+            return $this->redirectToRoute('app_user_show', ['id' => $user->getId()]);
         }
 
         return $this->render('user/form.html.twig', [

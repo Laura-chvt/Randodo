@@ -14,13 +14,21 @@
 <section class="container search-container mt-3">
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8">
-            <input type="text" class="form-control main-search-bar" placeholder="Où voulez-vous marcher ? (ex: Ribeauvillé, Lac Blanc...)">
+            <form action="{{ path('app_hike_index') }}" method="GET" class="mb-4">
+                <div class="mb-3">
+                    <input type="text" name="q" value="{{ app.request.query.get('q') }}" class="form-control main-search-bar form-control-lg" placeholder="Où voulez-vous marcher ? (ex: Ribeauvillé, Lac Blanc...)">
+                </div>
+                <div class="d-flex justify-content-center gap-3">
+                    <button class="btn btn-dark rounded-pill px-4" type="submit">Rechercher</button>
+                    <a href="{{ path('app_hike_index') }}" class="btn btn-outline-dark rounded-pill px-4">Réinitialiser</a>
+                </div>
+            </form>
         </div>
     </div>
 </section>
 
 <main class="container mt-5 pt-4">
-    <h2 class="mb-4">Nos randonnées préférées</h2>
+    <h2 class="mb-4">Nos randonnées</h2>
     <div class="row">
     {% for hike in hikeList %}
         <div class="col-md-4">
@@ -35,7 +43,7 @@
             </div>
         </div>
         {% else %}
-        <li class="list-group-item list-group-item-warning">
+        <li class="list-group-item list-group-item-warning mb-5">
             Aucune randonnée disponible
         </li>
     {% endfor %}

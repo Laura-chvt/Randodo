@@ -11,7 +11,10 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class PageController extends AbstractController
-{
+{   
+    /**
+    * Controller et affichage de la page "qui sommes-nous" et formulaire de contact
+    */
     #[Route('/contact', name: 'app_contact')]
     public function index(Request $request, MailerInterface $mailer): Response
     {

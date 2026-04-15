@@ -10,7 +10,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ContactType extends AbstractType
-{
+{   
+    /**
+    * Formulaire de contact
+    */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

@@ -13,7 +13,10 @@ use Symfony\Component\Validator\Constraints\NotCompromisedPassword;
 use Symfony\Component\Validator\Constraints\PasswordStrength;
 
 class ChangePasswordFormType extends AbstractType
-{
+{   
+    /**
+    * Formulaire de changement de mot de passe
+    */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

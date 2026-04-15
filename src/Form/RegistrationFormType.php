@@ -21,7 +21,10 @@ use Symfony\Component\Validator\Constraints\NotCompromisedPassword;
 use Symfony\Component\Validator\Constraints\PasswordStrength;
 
 class RegistrationFormType extends AbstractType
-{
+{   
+    /**
+    * Formulaire d'inscription de l'utilisateur
+    */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

@@ -24,6 +24,9 @@ class RegistrationController extends AbstractController
     {
     }
 
+    /**
+    * Controller et affichage de la page d'inscription
+    */
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
@@ -63,6 +66,9 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    /**
+    * Controller de l'envoi de vérification de mail
+    */
     #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
     {

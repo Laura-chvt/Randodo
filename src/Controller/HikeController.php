@@ -18,17 +18,30 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/hike', name: 'app_hike_')]
 final class HikeController extends AbstractController
-{
+{   
+    /**
+    * Controller et affichage de la page home
+    */
     #[Route('/', name: 'index')]
-    public function index(HikeRepository $hikeRepository): Response
+    public function index(HikeRepository $hikeRepository, Request $request): Response
     {
-        $arrHike = $hikeRepository->findAll();
+        
+        $search = $request->query->get('q');
+
+        if ($search) {
+            $arrHike = $hikeRepository->search($search);
+        } else {
+            $arrHike = $hikeRepository->findAll();
+        }
 
         return $this->render('hike/index.html.twig', [
             'hikeList'          => $arrHike,
         ]);
     }
 
+    /**
+    * Controller et affichage de la page d'une randonnée
+    */
      #[Route('/{id<\d+>}', name: 'show')]
     public function show(Hike $hike): Response
     {
@@ -39,6 +52,10 @@ final class HikeController extends AbstractController
         ]);
     }
 
+    /**
+    * Controller et affichage de la page de création d'une randonnée
+    * Accès : modérateur et plus
+    */
     #[Route('/create', name: 'create')]
     #[IsGranted('ROLE_MODO')]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
@@ -67,6 +84,10 @@ final class HikeController extends AbstractController
         ]);
     }
 
+    /**
+    * Controller et affichage de la page de modification d'une randonnée
+    * Accès : modérateur et plus
+    */
      #[Route('/{id<\d+>}/update', name: 'update')] 
     #[IsGranted('ROLE_MODO')]
     public function update(Hike $hike, Request $request, EntityManagerInterface $entityManager): Response
@@ -90,6 +111,10 @@ final class HikeController extends AbstractController
         ]);
     }
 
+    /**
+    * Controller du bouton de suppression d'une randonnée
+    * Accès : modérateur et plus
+    */
     #[Route('/{id<\d+>}/delete', name: 'delete', methods: ['POST'])]
     #[IsGranted('ROLE_MODO')]
     #[IsCsrfTokenValid('delete-hike', '_csrf_token')] 
@@ -105,9 +130,12 @@ final class HikeController extends AbstractController
             $logger->error($exc->getMessage());
         }
 
-        return $this->redirectToRoute('app_pokemon_index');
+        return $this->redirectToRoute('app_hike_index');
     }
 
+    /**
+    * Controller du bouton d'ajout en favoris d'une randonnée
+    */
     #[Route('/{id<\d+>}/favorite', name: 'favorite')]
     #[IsGranted('ROLE_USER')]
     public function toggleFavorite(Hike $hike, EntityManagerInterface $entityManager): Response
