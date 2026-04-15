@@ -27,7 +27,7 @@
                 <a href="{{ path('app_hike_show', {id: favHike.id}) }}" class="card fav-card mb-3 text-decoration-none text-dark">
                     <div class="row g-0">
                         <div class="col-md-3 col-sm-4 fav-img-container">
-                            <img src="{{ hike.thumbnail ? asset('hike/' ~ hike.thumbnail) : 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=500' }}" class="fav-img object-fit-cover w-100 h-100" alt="{{ favHike.name }}">
+                            <img src="{{ favHike.thumbnail ? asset('hike/' ~ favHike.thumbnail) : 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=500' }}" class="fav-img object-fit-cover w-100 h-100" alt="{{ favHike.name }}">
                         </div>
                         <div class="col-md-8 col-sm-6">
                             <div class="card-body py-3">

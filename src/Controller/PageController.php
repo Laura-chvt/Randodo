@@ -32,7 +32,7 @@ final class PageController extends AbstractController
             return $this->redirectToRoute('app_contact');
         }
 
-        return $this->render('contact/index.html.twig', [
+        return $this->render('page/index.html.twig', [
             'contactForm' => $form->createView(),
         ]);
     }

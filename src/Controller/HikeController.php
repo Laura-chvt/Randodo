@@ -92,7 +92,7 @@ final class HikeController extends AbstractController
 
     #[Route('/{id<\d+>}/delete', name: 'delete', methods: ['POST'])]
     #[IsGranted('ROLE_MODO')]
-    #[IsCsrfTokenValid('delete-hike', '_csrf_token')] //< 1: nom du token, 2: nom de l'input
+    #[IsCsrfTokenValid('delete-hike', '_csrf_token')] 
     public function delete(Hike $hike, EntityManagerInterface $entityManager, Request $request, LoggerInterface $logger): Response
     {
         try {

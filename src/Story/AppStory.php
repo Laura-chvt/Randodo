@@ -16,8 +16,22 @@ final class AppStory extends Story
         UserFactory::createMany(20);
 
         UserFactory::createOne([
-            'email'     => 'teste@test.fr',
+            'email'     => 'admin@test.fr',
             'roles'     => ['ROLE_ADMIN'],
+            'name'  => 'test',
+            'firstname' => 'test'
+        ]);
+
+        UserFactory::createOne([
+            'email'     => 'modo@test.fr',
+            'roles'     => ['ROLE_MODO'],
+            'name'  => 'test',
+            'firstname' => 'test'
+        ]);
+
+        UserFactory::createOne([
+            'email'     => 'user@test.fr',
+            'roles'     => ['ROLE_USER'],
             'name'  => 'test',
             'firstname' => 'test'
         ]);
