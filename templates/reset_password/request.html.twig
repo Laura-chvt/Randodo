@@ -3,9 +3,6 @@
 {% block title %}Réinitialiser votre mot de passe{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('reset_password_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
     <section class="container my-5">
     <h1  class="text-center my-5">Réinitialiser votre mot de passe</h1>
 

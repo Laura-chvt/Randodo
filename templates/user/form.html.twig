@@ -13,7 +13,9 @@
             <div class="card-header">
                 <h3>Modifier son profil</h3>
             </div>
-
+            {% for flash_success in app.flashes('app_user_update') %}
+                <div class="alert alert-success" role="success">{{ flash_success }}</div>
+            {% endfor %}
             <div class="card-body">
 
                 {{ form(userForm) }}
