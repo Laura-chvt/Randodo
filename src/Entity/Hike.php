@@ -56,10 +56,17 @@ class Hike
     #[ORM\JoinColumn(name: 'location_id', referencedColumnName: 'location_id')]
     private ?Location $location = null;
 
+    /**
+     * @var Collection<int, HikeDone>
+     */
+    #[ORM\OneToMany(targetEntity: HikeDone::class, mappedBy: 'hike')]
+    private Collection $hikesdone;
+
     public function __construct()
     {
         $this->comment = new ArrayCollection();
         $this->favourite = new ArrayCollection();
+        $this->hikesdone = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -228,6 +235,36 @@ class Hike
     public function setLocation(?Location $location): static
     {
         $this->location = $location;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, HikeDone>
+     */
+    public function getHikesdone(): Collection
+    {
+        return $this->hikesdone;
+    }
+
+    public function addHikesdone(HikeDone $hikesdone): static
+    {
+        if (!$this->hikesdone->contains($hikesdone)) {
+            $this->hikesdone->add($hikesdone);
+            $hikesdone->setHike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHikesdone(HikeDone $hikesdone): static
+    {
+        if ($this->hikesdone->removeElement($hikesdone)) {
+            // set the owning side to null (unless already changed)
+            if ($hikesdone->getHike() === $this) {
+                $hikesdone->setHike(null);
+            }
+        }
 
         return $this;
     }

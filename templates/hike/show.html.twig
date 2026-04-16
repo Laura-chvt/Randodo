@@ -7,7 +7,7 @@
 <div class="container mb-5">
     <div class="row">
         <div class="col-12">
-            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200" alt="Sommet des Vosges" class="hike-header-img">
+            <img src="{{ hike.thumbnail ? asset('uploads/pictures/' ~ hike.thumbnail) : 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200' }}" alt="Sommet des Vosges" class="hike-header-img">
         </div>
     </div>
 
@@ -39,9 +39,6 @@
                                 <i class="bi bi-heart"></i> Ajouter aux favoris
                             {% endif %}
                         </a>
-                        <button class="btn btn-action btn-done" data-bs-toggle="modal" data-bs-target="#doneModal">
-                            <i class="bi bi-check-circle"></i> Marquée faite
-                        </button>
                     </div>
                     {% if is_granted('ROLE_MODO') %}
                     <div class="admin-actions mb-4 p-3 border-dashed rounded-4 d-flex gap-2 align-items-center">
@@ -106,6 +103,17 @@
                         </div>
                     </div>
                 </div>
+                {% if app.user %}
+                <div class="card shadow-sm p-3 mb-4">
+                    <h5 class="card-title fs-6 mb-3">Avez-vous fait cette randonnée ?</h5>
+                    {{ form_start(doneForm, {'action': path('app_hike_done', {'id': hike.id})}) }}
+                        <div class="input-group">
+                            {{ form_widget(doneForm.doneAt, {'attr': {'class': 'form-control'}}) }}
+                            <button class="btn btn-action btn-done">Marquée faite</button>
+                        </div>
+                    {{ form_end(doneForm) }}
+                </div>
+                {% endif %}
                 <hr class="my-5 opacity-25">
                 <section class="comment-section">
                     <h3 class="fw-bold mb-4">Avis des randonneurs (1)</h3>

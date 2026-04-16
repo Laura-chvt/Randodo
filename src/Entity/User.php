@@ -69,10 +69,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $isVerified = false;
 
+    /**
+     * @var Collection<int, HikeDone>
+     */
+    #[ORM\OneToMany(targetEntity: HikeDone::class, mappedBy: 'hiker')]
+    private Collection $hike;
+
     public function __construct()
     {
         $this->comment = new ArrayCollection();
         $this->favourite = new ArrayCollection();
+        $this->hike = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -271,6 +278,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, HikeDone>
+     */
+    public function getHike(): Collection
+    {
+        return $this->hike;
+    }
+
+    public function addHike(HikeDone $hike): static
+    {
+        if (!$this->hike->contains($hike)) {
+            $this->hike->add($hike);
+            $hike->setHiker($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHike(HikeDone $hike): static
+    {
+        if ($this->hike->removeElement($hike)) {
+            // set the owning side to null (unless already changed)
+            if ($hike->getHiker() === $this) {
+                $hike->setHiker(null);
+            }
+        }
 
         return $this;
     }

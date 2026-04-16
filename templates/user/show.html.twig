@@ -19,9 +19,7 @@
             </section>
 
             <section class="mb-5">
-                <h3 class="fw-bold mb-4 h4 d-flex align-items-center">
-                    <i class="bi bi-suit-heart-fill me-2" style="color: var(--rd-pastel-pink);"></i> Mes favoris
-                </h3>
+                <h3 class="fw-bold mb-4 h4 d-flex align-items-center"> Mes favoris</h3>
 
                 {% for favHike in app.user.favourite %}
                 <a href="{{ path('app_hike_show', {id: favHike.id}) }}" class="card fav-card mb-3 text-decoration-none text-dark">
@@ -54,22 +52,21 @@
             </section>
 
             <section class="mb-5">
-                <h3 class="fw-bold mb-4 h4 d-flex align-items-center">
-                    <i class="bi bi-check-circle-fill me-2" style="color: var(--rd-pastel-green);"></i> Mon carnet de route
-                </h3>
-
+                <h3 class="fw-bold mb-4 h4 d-flex align-items-center"> Mon carnet de route</h3>
                 <div class="done-list-container">
+                {% for done in user.hike %}
                     <div class="done-item d-flex justify-content-between align-items-center flex-wrap gap-3">
                         <div>
-                            <h6 class="fw-bold mb-1 m-0">Boucle de l'Illwald</h6>
-                            <small class="text-muted"><i class="bi bi-stopwatch"></i> 1h 45 • <i class="bi bi-signpost-split"></i> 5 km</small>
+                            <h6 class="fw-bold mb-1 m-0">{{ done.hike.name }}</h6>
+                            <small class="text-muted">{{ done.hike.length }} km • {{ done.hike.time }} min</small>
                         </div>
                         <div>
-                            <span class="badge-date">14 Avril 2026</span>
+                            <span class="badge-date">{{ done.doneAt|format_date('long', locale='fr') }}</span>
                         </div>
                     </div>
-
-                    
+                {% else %}
+                    <p>Aucune randonnée terminée pour le moment.</p>
+                {% endfor %}
                 </div>
             </section>
 

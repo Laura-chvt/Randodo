@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Hike;
+use App\Entity\HikeDone;
 use App\Form\HikeCreateFormType;
+use App\Form\HikeDoneFormType;
 use App\Repository\HikeRepository;
 use App\Repository\LocationRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Psr\Log\LoggerInterface;
@@ -45,10 +48,11 @@ final class HikeController extends AbstractController
      #[Route('/{id<\d+>}', name: 'show')]
     public function show(Hike $hike): Response
     {
-
+        $doneForm = $this->createForm(HikeDoneFormType::class);
 
         return $this->render('hike/show.html.twig', [
-            'hike'       => $hike
+            'hike'       => $hike,
+            'doneForm' => $doneForm
         ]);
     }
 
@@ -58,7 +62,7 @@ final class HikeController extends AbstractController
     */
     #[Route('/create', name: 'create')]
     #[IsGranted('ROLE_MODO')]
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    public function create(Request $request, FileUploader $fileUploader, EntityManagerInterface $entityManager): Response
     {
 
         $objNewHike = new Hike();
@@ -67,7 +71,11 @@ final class HikeController extends AbstractController
         $createForm->handleRequest($request);
 
         if($createForm->isSubmitted() && $createForm->isValid()) {
-
+            $imageFile = $createForm->get('thumbnail')->getData();
+            if ($imageFile) {
+                $newFilename = $fileUploader->upload($imageFile);  
+                $objNewHike->setThumbnail($newFilename);
+            }
 
             $entityManager->persist($objNewHike);
             $entityManager->flush();
@@ -90,12 +98,20 @@ final class HikeController extends AbstractController
     */
      #[Route('/{id<\d+>}/update', name: 'update')] 
     #[IsGranted('ROLE_MODO')]
-    public function update(Hike $hike, Request $request, EntityManagerInterface $entityManager): Response
+    public function update(Hike $hike, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         
         $updateForm = $this->createForm(HikeCreateFormType::class, $hike);
         $updateForm->handleRequest($request);
         if($updateForm->isSubmitted() && $updateForm->isValid()) {
+            $imageFile = $updateForm->get('thumbnail')->getData();
+            if ($imageFile) {
+                if ($hike->getThumbnail()) {
+                    $fileUploader->remove($hike->getThumbnail());
+                }
+            $newFilename = $fileUploader->upload($imageFile);
+            $hike->setThumbnail($newFilename);
+            }
 
             $entityManager->flush();
 
@@ -159,6 +175,34 @@ final class HikeController extends AbstractController
 
         return $this->redirectToRoute('app_hike_show', [
             'id' => $hike->getId()
+        ]);
+    }
+
+    /**
+    * Controller du bouton de "marquer comme fait"
+    */
+    #[Route('/hike/{id}/done', name: 'done')]
+    #[IsGranted('ROLE_USER')]
+    public function markAsDone(Hike $hike, Request $request, EntityManagerInterface $em): Response
+    {   
+        $hikeDone = new HikeDone();
+        $hikeDone->setHike($hike);
+        $hikeDone->setHiker($this->getUser());
+
+        $form = $this->createForm(HikeDoneFormType::class, $hikeDone);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($hikeDone);
+            $em->flush();
+
+            $this->addFlash('success', 'Félicitations pour cette randonnée !');
+            return $this->redirectToRoute('app_hike_show', ['id' => $hike->getId()]);
+        }
+
+        return $this->render('hike/show.html.twig', [
+            'hike' => $hike,
+            'doneForm' => $form,
         ]);
     }
 

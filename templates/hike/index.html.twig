@@ -34,7 +34,7 @@
         <div class="col-md-4">
             <div class="hike-card position-relative">
                 <span class="badge-difficulty">{{ hike.level }}</span>
-                <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=500" class="hike-img w-100" alt="Rando">
+                <img src="{{ hike.thumbnail ? asset('uploads/pictures/' ~ hike.thumbnail) : 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=500' }}" class="hike-img w-100" alt="Rando">
                 <div class="p-3 text-center">
                     <h5 class="fw-bold">{{ hike.name }}</h5>
                     <p class="text-muted small">{{ hike.location.name }} • {{ hike.time }}min • {{ hike.length }}km</p>

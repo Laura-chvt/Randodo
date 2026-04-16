@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\HikeDone;
 use App\Entity\User;
 use App\Form\UserInfoFormType;
 use App\Repository\UserRepository;
@@ -43,7 +44,7 @@ final class UserController extends AbstractController
     {
 
         return $this->render('user/show.html.twig', [
-            'user' => $user
+            'user' => $user,
         ]);
     }
 

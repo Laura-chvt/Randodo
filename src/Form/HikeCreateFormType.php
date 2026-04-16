@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class HikeCreateFormType extends AbstractType
 {   
@@ -64,6 +65,16 @@ class HikeCreateFormType extends AbstractType
                 'label'     => "Miniature de la randonnée",
                 'mapped'    => false,
                 'required'  => false,
+                'constraints' => [
+                new File(
+                    maxSize: '2M',
+                    mimeTypes: [
+                        'image/jpeg',
+                        'image/png',
+                    ],
+                    mimeTypesMessage: 'Veuillez envoyer une image valide (JPEG ou PNG)',
+                    )
+                ],    
             ])
 
             ->add('location', EntityType::class, [
