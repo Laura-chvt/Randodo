@@ -6,6 +6,7 @@ use App\Entity\HikeDone;
 use App\Entity\User;
 use App\Form\UserInfoFormType;
 use App\Repository\UserRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,17 +55,22 @@ final class UserController extends AbstractController
     */
     #[Route('/{id<\d+>}/update', name: 'update')]
     #[IsGranted('PROFILE_EDIT', subject: 'user')]
-    public function update(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function update(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
 
         $userForm = $this->createForm(UserInfoFormType::class, $user);
         $userForm->handleRequest($request);
         
         if($userForm->isSubmitted() && $userForm->isValid()) {
-            $plainPassword = $userForm->get('plainPassword')->getData();
-            if($plainPassword) {
-                $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+            $imageFile = $userForm->get('image')->getData();
+            if ($imageFile) {
+                if ($user->getImage()) {
+                    $fileUploader->remove($user->getImage());
+                }
+            $newFilename = $fileUploader->upload($imageFile);
+            $user->setImage($newFilename);
             }
+
             $entityManager->flush();
             $this->addFlash('success', "Votre profil a été mis à jour.");
 

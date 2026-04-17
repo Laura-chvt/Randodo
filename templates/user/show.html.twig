@@ -8,7 +8,7 @@
         <div class="col-lg-9">
 
             <section class="profile-section">
-                <img src="{{ user.image ? asset('user/' ~ user.image) : asset('images/user.webp') }}" alt="Photo de profil" class="profile-img rounded-circle mb-3">
+                <img src="{{ user.image ? asset('uploads/pictures/' ~ user.image) : asset('images/user.webp') }}" alt="Photo de profil" class="profile-img rounded-circle mb-3">
                 <h1 class="fw-bold h2 mb-2">{{ user.firstname }} {{ user.name }}</h1>
                 <p class="text-muted mx-auto" style="max-width: 500px;">
                     {{ user.description }}

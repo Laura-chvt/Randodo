@@ -7,10 +7,9 @@
 {# Accès à la page 404 en mode dev: https://localhost:8000/_error/404 #}
 
 <div class="text-center">
-    <h1>Oups ! Cette page n'existe pas ! </h1>
-    <h2>Retourner sur <a href="{{ path('app_hike_index') }}">la page principale</a></h2>
+    <h1>Vous n'avez pas l'autorisation d'accéder à cette page ou vous n'êtes pas connecté !</h1>
 
-    <img class="w-100" src="{{ asset('images/404.png') }}" alt="rondoudou perplexe">
+    <img class="w-100" src="{{ asset('images/403.png') }}" alt="rondoudou pas content">
 </div>
 
 {% endblock %}

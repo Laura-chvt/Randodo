@@ -3,6 +3,16 @@
         <a class="navbar-brand" href="{{ path('app_hike_index') }}">
             <img src="{{ asset('images/logo.png') }}" alt="Randodo Logo" class="nav-logo">
         </a>
+        {% if is_granted('ROLE_MODO') %}
+        <div class="ms-auto">
+            <a href="{{ path('app_hike_create') }}" class="btn btn-outline-brown rounded-pill px-4">Ajouter une Randonnée</a>
+        </div>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+        <div class="ms-auto">
+            <a href="{{ path('app_user_index') }}" class="btn btn-outline-brown rounded-pill px-4">Dashboard</a>
+        </div>
+        {% endif %}
         {% if app.user %}
         <div class="ms-auto">
             <a href="{{ path('app_user_show', {id: app.user.id}) }}" class="btn btn-outline-brown rounded-pill px-4">Mon Compte</a>
@@ -16,16 +26,6 @@
         </div>
         <div class="ms-auto">
             <a href="{{ path('app_login') }}" class="btn btn-outline-brown rounded-pill px-4">Se connecter</a>
-        </div>
-        {% endif %}
-        {% if is_granted('ROLE_MODO') %}
-        <div class="ms-auto">
-            <a href="{{ path('app_hike_create') }}" class="btn btn-outline-brown rounded-pill px-4">Ajouter une Randonnée</a>
-        </div>
-        {% endif %}
-        {% if is_granted('ROLE_ADMIN') %}
-        <div class="ms-auto">
-            <a href="{{ path('app_user_index') }}" class="btn btn-outline-brown rounded-pill px-4">Dashboard</a>
         </div>
         {% endif %}
     </div>
