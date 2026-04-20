@@ -39,4 +39,15 @@ final class PageController extends AbstractController
             'contactForm' => $form->createView(),
         ]);
     }
+
+    /**
+    * Controller servant uniquement à la redirection page home
+    */
+    #[Route('', name: 'index')]
+    public function home(): Response
+    {
+        
+        return $this->render('hike/index.html.twig', [
+        ]);
+    }
 }

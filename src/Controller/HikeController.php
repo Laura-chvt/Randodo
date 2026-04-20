@@ -25,7 +25,7 @@ final class HikeController extends AbstractController
     /**
     * Controller et affichage de la page home
     */
-    #[Route('/', name: 'index')]
+    #[Route('', name: 'index')]
     public function index(HikeRepository $hikeRepository, Request $request): Response
     {
         
