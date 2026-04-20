@@ -43,11 +43,10 @@ final class PageController extends AbstractController
     /**
     * Controller servant uniquement à la redirection page home
     */
-    #[Route('', name: 'index')]
+    #[Route('/', name: 'index')]
     public function home(): Response
     {
         
-        return $this->render('hike/index.html.twig', [
-        ]);
+        return $this->redirectToRoute('app_hike_index');
     }
 }

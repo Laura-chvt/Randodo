@@ -45,7 +45,7 @@ final class HikeController extends AbstractController
     /**
     * Controller et affichage de la page d'une randonnée
     */
-     #[Route('/{id<\d+>}', name: 'show')]
+    #[Route('/{id<\d+>}', name: 'show')]
     public function show(Hike $hike): Response
     {
         $doneForm = $this->createForm(HikeDoneFormType::class);
@@ -96,7 +96,7 @@ final class HikeController extends AbstractController
     * Controller et affichage de la page de modification d'une randonnée
     * Accès : modérateur et plus
     */
-     #[Route('/{id<\d+>}/update', name: 'update')] 
+    #[Route('/{id<\d+>}/update', name: 'update')] 
     #[IsGranted('ROLE_MODO')]
     public function update(Hike $hike, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
