@@ -7,7 +7,6 @@ use App\Entity\HikeDone;
 use App\Form\HikeCreateFormType;
 use App\Form\HikeDoneFormType;
 use App\Repository\HikeRepository;
-use App\Repository\LocationRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -139,7 +138,7 @@ final class HikeController extends AbstractController
         try {
             $entityManager->remove($hike);
             $entityManager->flush();
-            $this->addFlash('success', "Le pokémon a été supprimé");
+            $this->addFlash('success', "La randonnée a été supprimée");
         }
         catch(Exception $exc) {
             $this->addFlash('danger', "Une erreur est survenue. Réessayez");

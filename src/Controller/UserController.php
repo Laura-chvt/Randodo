@@ -8,11 +8,14 @@ use App\Form\UserInfoFormType;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/user', name: 'app_user_')]
@@ -71,6 +74,53 @@ final class UserController extends AbstractController
             $user->setImage($newFilename);
             }
 
+            $entityManager->flush();
+            $this->addFlash('success', "Votre profil a été mis à jour.");
+
+            return $this->redirectToRoute('app_user_show', ['id' => $user->getId()]);
+        }
+
+        return $this->render('user/form.html.twig', [
+            'userForm' => $userForm
+        ]);
+    }
+
+    /**
+    * Controller du bouton de suppression d'un utilisateur
+    * Accès : Administrateur
+    */
+    #[Route('/{id<\d+>}/delete', name: 'delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
+    #[IsCsrfTokenValid('delete_user', '_csrf_token')] 
+    public function delete(User $user, EntityManagerInterface $entityManager, LoggerInterface $logger): Response
+    {
+        try {
+            $entityManager->remove($user);
+            $entityManager->flush();
+            $this->addFlash('success', "L'utilisateur a été supprimée");
+        }
+        catch(Exception $exc) {
+            $this->addFlash('danger', "Une erreur est survenue. Réessayez");
+            $logger->error($exc->getMessage());
+        }
+
+        return $this->redirectToRoute('app_user_index');
+    }
+    
+    /**
+    * Controller du bouton de changement de role d'un utilisateur
+    * Accès : Administrateur
+    */
+    #[Route('/{id<\d+>}/change_role', name: 'change_role', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
+    #[IsCsrfTokenValid('change_role', '_csrf_token')]
+    public function changeRole(User $user, Request $request, EntityManagerInterface $entityManager): Response
+    {
+
+        $userForm = $this->createForm(UserInfoFormType::class, $user);
+        $userForm->handleRequest($request);
+        
+        if($userForm->isSubmitted() && $userForm->isValid()) {
             $entityManager->flush();
             $this->addFlash('success', "Votre profil a été mis à jour.");
 
