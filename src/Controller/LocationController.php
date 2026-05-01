@@ -31,14 +31,11 @@ final class LocationController extends AbstractController
     {
 
         $objNewLocation = new Location();
-
         $createForm = $this->createForm(LocationCreateFormType::class, $objNewLocation);
         $createForm->handleRequest($request);
-
         if($createForm->isSubmitted() && $createForm->isValid()) {
             $entityManager->persist($objNewLocation);
             $entityManager->flush();
-
             $this->addFlash('success', "La localisation a bien été ajoutée");
 
         }

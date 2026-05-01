@@ -3,14 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\HikeDone;
+use App\Entity\Location;
 use App\Entity\User;
+use App\Form\LocationCreateFormType;
 use App\Form\UserInfoFormType;
+use App\Repository\LocationRepository;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Loader\Configurator\request;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -27,16 +31,26 @@ final class UserController extends AbstractController
     */
     #[Route('/', name: 'index')]
     #[IsGranted('ROLE_ADMIN')]
-    public function index(UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager, LocationRepository $locationRepository): Response
     {
         $arrUsers = $userRepository->findBy(
                                     [],                  
                                     ['name' => 'ASC']
         );
 
+        $objNewLocation = new Location();
+        $locationCreateFormType = $this->createForm(LocationCreateFormType::class, $objNewLocation);
+        $locationCreateFormType->handleRequest($request);
+        if($locationCreateFormType->isSubmitted() && $locationCreateFormType->isValid()) {
+            $entityManager->persist($objNewLocation);
+            $entityManager->flush();
+            $this->addFlash('success', "La localisation a bien été ajoutée");
+
+        }
+
         return $this->render('user/index.html.twig', [
-            'controller_name'   => 'UserController',
-            'userList'          => $arrUsers
+            'userList'          => $arrUsers,
+            'locationCreateFormType'        => $locationCreateFormType
         ]);
     }
 
