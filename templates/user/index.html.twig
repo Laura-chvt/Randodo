@@ -12,8 +12,10 @@
         <h3 class="h5 fw-bold mb-3">Ajouter une nouvelle zone de randonnées</h3>
         {{ form_start(locationCreateFormType, {'attr': {'class': 'row g-3 align-items-end'}}) }}
         <div class="col-md-6">
-            <label class="form-label text-muted small mb-1">Nom de la zone</label>
-            {{ form_widget(locationCreateFormType, {'attr': {'class': 'form-control', 'placeholder': 'Ex: Massif du Donon'}}) }}
+            {{ form_label(locationCreateFormType.name, 'Nom de la zone', {'label_attr': {'class': 'form-label text-muted small mb-1'}}) }}
+            {{ form_widget(locationCreateFormType.name, {'attr': {'class': 'form-control', 'placeholder': 'Ex: Massif du Donon'}}) }}
+            {{ form_label(locationCreateFormType.gps, 'Coordonnées GPS', {'label_attr': {'class': 'form-label text-muted small mb-1'}}) }}
+            {{ form_widget(locationCreateFormType.gps, {'attr': {'class': 'form-control', 'placeholder': 'Ex: 48.2500, 7.4500'}}) }}
         </div>
         <div class="col-md-2">
             <button type="submit" class="btn btn-outline-brown w-100">Ajouter</button>
@@ -44,24 +46,25 @@
                             </div>
                         </td>
                         <td class="text-muted">{{ user.email }}</td>
-                        <form action="{{ path('app_user_change_role', {'id': user.id}) }}" method="POST" class="d-flex align-items-center m-0">
-                            <td>
+                        <td>
+                            <form action="{{ path('app_user_change_role', {'id': user.id}) }}" method="POST" class="d-flex align-items-center m-0">
                                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('change_role' ~ user.id) }}">
-                                <select name="new_role" class="form-select form-select-sm w-auto">
+                                
+                                <select name="new_role" class="form-select form-select-sm w-auto me-2">
                                     <option value="ROLE_USER" {% if 'ROLE_USER' in user.roles %}selected{% endif %}>Utilisateur</option>
                                     <option value="ROLE_MODO" {% if 'ROLE_MODO' in user.roles %}selected{% endif %}>Modérateur</option>
                                     <option value="ROLE_ADMIN" {% if 'ROLE_ADMIN' in user.roles %}selected{% endif %}>Administrateur</option>
                                 </select>
-                            </td>
-                            <td class="text-muted small">{{ user.registeredAt|date('d/m/Y') }}</td>
-                            <td class="text-end">
-                            <button type="submit" class="btn btn-sm btn-save px-3 me-1" title="Sauvegarder le rôle">Modifier</button>
-                        </form>
-                        <form action="{{ path('app_user_delete', {'id': user.id}) }}" method="POST" class="d-inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce compte ?');">
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('delete_user' ~ user.id) }}">
-                            <button type="submit" class="btn btn-sm btn-delete px-3" title="Supprimer l'utilisateur">Supprimer</button>
-                        </form>
-                            </td>
+                                <button type="submit" class="btn btn-sm btn-save px-2" title="Sauvegarder le rôle">Modifier</button>
+                            </form>
+                        </td>
+                        <td class="text-muted small">{{ user.createdAt|date('d/m/Y') }}</td>
+                        <td class="text-end">
+                            <form action="{{ path('app_user_delete', {'id': user.id}) }}" method="POST" class="d-inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce compte ?');">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('delete_user' ~ user.id) }}">
+                                <button type="submit" class="btn btn-sm btn-delete px-3" title="Supprimer l'utilisateur">Supprimer</button>
+                            </form>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

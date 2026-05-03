@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Politique de confidentialité - Randodo{% endblock %}
+
+{% block body %}
+<main class="container flex-grow-1 my-5">
+<div class="row justify-content-center">
+        <div class="col-lg-10">
+            <h1 class="fw-bold mb-4">Politique de Confidentialité</h1>
+            
+            <p class="text-muted mb-5">Dernière mise à jour : {{ 'now'|date('d/m/Y') }}</p>
+
+            <section class="mb-5">
+                <h2 class="h4 fw-bold mb-3">1. Présentation et responsable du traitement</h2>
+                <p>
+                    Bienvenue sur <strong>Randodo</strong>. La protection de vos données personnelles est une priorité pour nous. 
+                    La présente politique vise à vous informer sur la manière dont nous collectons, utilisons et protégeons vos données dans le cadre de la réglementation européenne (RGPD).
+                </p>
+                <p>
+                    Le responsable du traitement des données est :<br>
+                    <strong>[Laura Chevillet]</strong><br>
+                    Contact : <a href="mailto:[Ton Adresse Email]">[chevillet.laura@gmail.com]</a>
+                </p>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="h4 fw-bold mb-3">2. Quelles données collectons-nous ?</h2>
+                <p>Lors de votre utilisation de Randodo, nous sommes amenés à collecter les données suivantes :</p>
+                <ul>
+                    <li><strong>Données d'identification :</strong> Prénom, nom, et adresse e-mail (lors de la création de votre compte).</li>
+                    <li><strong>Données de sécurité :</strong> Mot de passe (stocké de manière hachée et sécurisée, nous n'y avons pas accès).</li>
+                    <li><strong>Données de profil :</strong> Photo de profil (avatar) si vous choisissez d'en uploader une.</li>
+                    <li><strong>Données d'activité :</strong> Historique des randonnées que vous marquez comme "faites" (date de réalisation, randonnée concernée).</li>
+                </ul>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="h4 fw-bold mb-3">3. Pourquoi utilisons-nous vos données ? (Finalité)</h2>
+                <p>Vos données sont collectées dans les buts suivants :</p>
+                <ul>
+                    <li>Permettre la création, la gestion et la sécurisation de votre compte utilisateur.</li>
+                    <li>Vous permettre d'utiliser les fonctionnalités du site (marquer une randonnée comme faite, personnaliser votre profil).</li>
+                    <li>Gérer les droits d'accès (rôles Modérateur, Administrateur).</li>
+                </ul>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="h4 fw-bold mb-3">4. Partage et conservation des données</h2>
+                <p>
+                    <strong>Nous ne vendons, ne louons, ni ne cédons vos données personnelles à des tiers.</strong>
+                </p>
+                <p>
+                    Vos données sont conservées tant que votre compte est actif. Si vous décidez de supprimer votre compte, l'intégralité de vos données personnelles (y compris votre photo de profil et votre historique de randonnées) sera définitivement effacée de nos serveurs.
+                </p>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="h4 fw-bold mb-3">5. Utilisation des cookies</h2>
+                <p>
+                    Randodo utilise uniquement des <strong>cookies techniques strictement nécessaires</strong> au bon fonctionnement du site. 
+                    Ces cookies servent à maintenir votre session de connexion active et à protéger nos formulaires contre les failles de sécurité (jetons CSRF). 
+                    Nous n'utilisons aucun cookie de ciblage publicitaire ni de traçage tiers. Par conséquent, aucun bandeau de consentement n'est requis.
+                </p>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="h4 fw-bold mb-3">6. Vos droits (RGPD)</h2>
+                <p>Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez des droits suivants concernant vos informations :</p>
+                <ul>
+                    <li><strong>Droit d'accès et de rectification :</strong> Vous pouvez modifier vos informations (nom, prénom, e-mail, photo) directement depuis votre espace profil.</li>
+                    <li><strong>Droit à l'effacement ("droit à l'oubli") :</strong> Vous pouvez demander la suppression complète de votre compte à tout moment.</li>
+                    <li><strong>Droit à la limitation et à l'opposition :</strong> Vous pouvez vous opposer au traitement de vos données en nous contactant.</li>
+                </ul>
+                <p>
+                    Pour exercer ces droits ou pour toute question concernant vos données, vous pouvez nous contacter à l'adresse : <a href="mailto:[Ton Adresse Email]">[chevillet.laura@gmail.com]</a>.
+                </p>
+                <p class="text-muted small mt-3">
+                    <em>Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés, vous pouvez adresser une réclamation à la CNIL.</em>
+                </p>
+            </section>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

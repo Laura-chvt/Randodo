@@ -49,4 +49,18 @@ final class PageController extends AbstractController
         
         return $this->redirectToRoute('app_hike_index');
     }
+
+    #[Route('/mentions', name: 'app_mentions')]
+    public function mentions(): Response
+    {
+
+        return $this->render('page/mentions.html.twig');
+    }
+
+    #[Route('/confidentialite', name: 'app_confidentialite')]
+    public function confidentialite(): Response
+    {
+
+        return $this->render('page/confidentialite.html.twig');
+    }
 }

@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Controller;
-
-use App\Entity\HikeDone;
 use App\Entity\Location;
 use App\Entity\User;
 use App\Form\LocationCreateFormType;
@@ -14,7 +12,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\Loader\Configurator\request;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -68,7 +65,7 @@ final class UserController extends AbstractController
 
     /**
     * Controller et affichage de la page de modification d'un utilisateur
-    * Accès : utilisateur concerné et admin
+    * Accès : utilisateur concerné
     */
     #[Route('/{id<\d+>}/update', name: 'update')]
     #[IsGranted('PROFILE_EDIT', subject: 'user')]
@@ -105,16 +102,21 @@ final class UserController extends AbstractController
     */
     #[Route('/{id<\d+>}/delete', name: 'delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    #[IsCsrfTokenValid('delete_user', '_csrf_token')] 
-    public function delete(User $user, EntityManagerInterface $entityManager, LoggerInterface $logger): Response
+    public function delete(User $user, Request $request, EntityManagerInterface $entityManager, LoggerInterface $logger): Response
     {
+        $submittedToken = $request->request->get('_csrf_token');
+        if (!$this->isCsrfTokenValid('delete_user' . $user->getId(), $submittedToken)) {
+            $this->addFlash('danger', 'Jeton de sécurité invalide.');
+            return $this->redirectToRoute('app_user_index');
+        }
+
         try {
             $entityManager->remove($user);
             $entityManager->flush();
-            $this->addFlash('success', "L'utilisateur a été supprimée");
+            $this->addFlash('success', "L'utilisateur a bien été supprimé.");
         }
         catch(Exception $exc) {
-            $this->addFlash('danger', "Une erreur est survenue. Réessayez");
+            $this->addFlash('danger', "Une erreur est survenue. Cet utilisateur a peut-être des randonnées liées.");
             $logger->error($exc->getMessage());
         }
 
@@ -127,22 +129,22 @@ final class UserController extends AbstractController
     */
     #[Route('/{id<\d+>}/change_role', name: 'change_role', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    #[IsCsrfTokenValid('change_role', '_csrf_token')]
     public function changeRole(User $user, Request $request, EntityManagerInterface $entityManager): Response
     {
-
-        $userForm = $this->createForm(UserInfoFormType::class, $user);
-        $userForm->handleRequest($request);
-        
-        if($userForm->isSubmitted() && $userForm->isValid()) {
-            $entityManager->flush();
-            $this->addFlash('success', "Votre profil a été mis à jour.");
-
-            return $this->redirectToRoute('app_user_show', ['id' => $user->getId()]);
+        $submittedToken = $request->request->get('_csrf_token');
+        if (!$this->isCsrfTokenValid('change_role' . $user->getId(), $submittedToken)) {
+            $this->addFlash('danger', 'Jeton de sécurité invalide.');
+            return $this->redirectToRoute('app_user_index');
         }
-
-        return $this->render('user/form.html.twig', [
-            'userForm' => $userForm
-        ]);
+        $newRole = $request->request->get('new_role');
+        $allowedRoles = ['ROLE_USER', 'ROLE_MODO', 'ROLE_ADMIN'];
+        if (in_array($newRole, $allowedRoles)) {
+            $user->setRoles([$newRole]); 
+            $entityManager->flush();
+            $this->addFlash('success', "Le rôle de l'utilisateur a été mis à jour.");
+        } else {
+            $this->addFlash('danger', 'Rôle invalide.');
+        }
+        return $this->redirectToRoute('app_user_index');
     }
 }
