@@ -50,8 +50,9 @@ class UserInfoFormType extends AbstractType
                     mimeTypes: [
                         'image/jpeg',
                         'image/png',
+                        'image/webp',
                     ],
-                    mimeTypesMessage: 'Veuillez envoyer une image valide (JPEG ou PNG)',
+                    mimeTypesMessage: 'Veuillez envoyer une image valide (JPEG, PNG ou WEBP)',
                     )
                 ],    
             ]) 

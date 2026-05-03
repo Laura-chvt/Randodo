@@ -67,12 +67,13 @@ class HikeCreateFormType extends AbstractType
                 'required'  => false,
                 'constraints' => [
                 new File(
-                    maxSize: '2M',
+                    maxSize: '1Go',
                     mimeTypes: [
                         'image/jpeg',
                         'image/png',
+                        'image/webp',
                     ],
-                    mimeTypesMessage: 'Veuillez envoyer une image valide (JPEG ou PNG)',
+                    mimeTypesMessage: 'Veuillez envoyer une image valide (JPEG, PNG ou WEBP)',
                     )
                 ],    
             ])
