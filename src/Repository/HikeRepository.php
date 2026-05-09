@@ -39,4 +39,28 @@ class HikeRepository extends ServiceEntityRepository
         }
         return $queryBuilder->getQuery()->getResult();
     }
+
+    /**
+     * Récupère les statistiques globales des randonnées via SQL natif
+     */
+    public function getHikesStatistics(): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = '
+            SELECT 
+                h.hike_name AS hike_name,
+                COUNT(DISTINCT hd.id) AS done_count,
+                COUNT(DISTINCT uh.hike_user_id) AS fav_count
+            FROM hike h
+            LEFT JOIN hike_done hd ON h.hike_id = hd.hikesdone_id
+            LEFT JOIN user_hike uh ON h.hike_id = uh.user_hike
+            GROUP BY h.hike_id, h.hike_name
+            ORDER BY done_count DESC, fav_count DESC
+        ';
+
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+
+        return $resultSet->fetchAllAssociative();
+    }
 }

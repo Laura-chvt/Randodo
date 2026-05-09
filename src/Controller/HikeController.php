@@ -212,4 +212,21 @@ final class HikeController extends AbstractController
         ]);
     }
 
+    /**
+    * Controller du bouton de "supprimer" des randonnées marquées comme faites
+    */
+    #[Route('/hike/{id<\d+>}/delete', name: 'done_delete', methods: ['POST'])]
+    #[IsGranted('DELETE', subject: 'hikeDone')]
+    public function deleteDone(HikeDone $hikeDone, EntityManagerInterface $entityManager): Response
+    {
+        $userId = $hikeDone->getHiker()->getId();
+        $entityManager->remove($hikeDone);
+        $entityManager->flush();
+        $this->addFlash('success', "La randonnée a été retirée de votre historique.");
+
+        return $this->redirectToRoute('app_user_show', [
+            'id' => $userId,
+        ]);
+    }
+
 }

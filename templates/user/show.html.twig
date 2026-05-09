@@ -61,7 +61,11 @@
                             <small class="text-muted">{{ done.hike.length }} km • {{ done.hike.time }} min</small>
                         </div>
                         <div>
-                            <span class="badge-date">{{ done.doneAt|format_date('long', locale='fr') }}</span>
+                            <span class="badge-date m-1">{{ done.doneAt|format_date('long', locale='fr') }}</span>
+                            <form action="{{ path('app_hike_done_delete', {id: done.id}) }}" method="POST" onsubmit="return confirm('Supprimer cette date de votre historique ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ done.id) }}">
+                                <button class="btn btn-sm btn-delete rounded-pill px-3 m-1" type="submit" title="Annuler">Supprimer</button>
+                            </form>
                         </div>
                     </div>
                 {% else %}

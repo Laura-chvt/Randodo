@@ -1,15 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Page administrateur{% endblock %}
+{% block title %}Dashboard - Page administrateur{% endblock %}
 
 {% block body %}
 <main class="container flex-grow-1 my-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="fw-bold h2 m-0">Tableau de bord</h1>
+        <h1 class="fw-bold h2 m-0"><a href="{{ path('app_user_index') }}" class="text-decoration-none text-reset">Tableau de bord</a></h1>
+        <h1 class="fw-bold h2 m-0"><a href="{{ path('app_user_stats') }}" class="text-decoration-none text-reset">Statistiques</a></h1>
     </div>
 
     <section class="admin-card">
-        <h3 class="h5 fw-bold mb-3">Ajouter une nouvelle zone de randonnées</h3>
+        <h3 class="h5 fw-bold mb-4"><i class="bi bi-signpost-2 text-muted me-2"></i>Ajouter une nouvelle zone de randonnées</h3>
         {{ form_start(locationCreateFormType, {'attr': {'class': 'row g-3 align-items-end'}}) }}
         <div class="col-md-6">
             {{ form_label(locationCreateFormType.name, 'Nom de la zone', {'label_attr': {'class': 'form-label text-muted small mb-1'}}) }}

@@ -14,13 +14,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/location', name: 'app_location_')]
 final class LocationController extends AbstractController
 {
-    
-    public function index(): Response
-    {
-        return $this->render('location/index.html.twig', [
-            'controller_name' => 'LocationController',
-        ]);
-    }
 
     /**
     * Controller pour la création d'une localisation sur la page admin

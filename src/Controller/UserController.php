@@ -5,6 +5,7 @@ use App\Entity\Location;
 use App\Entity\User;
 use App\Form\LocationCreateFormType;
 use App\Form\UserInfoFormType;
+use App\Repository\HikeRepository;
 use App\Repository\LocationRepository;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
@@ -146,5 +147,16 @@ final class UserController extends AbstractController
             $this->addFlash('danger', 'Rôle invalide.');
         }
         return $this->redirectToRoute('app_user_index');
+    }
+
+    #[Route('/stats', name: 'stats')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function statistics(HikeRepository $hikeRepository): Response
+    {
+        $stats = $hikeRepository->getHikesStatistics();
+
+        return $this->render('user/stats.html.twig', [
+            'statsList' => $stats,
+        ]);
     }
 }
