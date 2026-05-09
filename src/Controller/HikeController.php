@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Hike;
 use App\Entity\HikeDone;
+use App\Form\CommentCreateFormType;
 use App\Form\HikeCreateFormType;
 use App\Form\HikeDoneFormType;
 use App\Repository\HikeRepository;
@@ -32,6 +34,7 @@ final class HikeController extends AbstractController
 
         if ($search) {
             $arrHike = $hikeRepository->search($search);
+
         } else {
             $arrHike = $hikeRepository->findAll();
         }
@@ -49,9 +52,13 @@ final class HikeController extends AbstractController
     {
         $doneForm = $this->createForm(HikeDoneFormType::class);
 
+        $comment = new Comment();
+        $createForm = $this->createForm(CommentCreateFormType::class, $comment);
+
         return $this->render('hike/show.html.twig', [
-            'hike'       => $hike,
-            'doneForm' => $doneForm
+            'hike'          => $hike,
+            'doneForm'      => $doneForm,
+            'createForm'    => $createForm,
         ]);
     }
 

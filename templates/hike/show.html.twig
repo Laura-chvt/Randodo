@@ -7,7 +7,7 @@
 <div class="container mb-5">
     <div class="row">
         <div class="col-12">
-            <img src="{{ hike.thumbnail ? asset('uploads/pictures/' ~ hike.thumbnail) : 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200' }}" alt="Sommet des Vosges" class="hike-header-img">
+            <img class="hike-header-img" src="{{ hike.thumbnail ? asset('uploads/pictures/' ~ hike.thumbnail) : 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200' }}" alt="Sommet des Vosges" class="hike-header-img">
         </div>
     </div>
 
@@ -115,40 +115,55 @@
                 </div>
                 {% endif %}
                 <hr class="my-5 opacity-25">
-                <section class="comment-section">
-                    <h3 class="fw-bold mb-4">Avis des randonneurs (1)</h3>
-                    <form class="mb-5">
-                        <div class="mb-3">
-                            <textarea class="form-control" rows="3" placeholder="Partagez votre expérience..."></textarea>
+
+                <section id="comment-section" class="comment-section">
+                    <h3 class="fw-bold mb-4">Avis des randonneurs</h3>
+                    {% if app.user %}
+                        {{ form_start(createForm, {'action': path('app_comment_create', {'id': hike.id})}) }}
+                            <div class="mb-3">
+                                {{ form_widget(createForm.content) }}
+                            </div>
+                            <button type="submit" class="btn btn-dark rounded-pill px-4">Publier mon avis</button>
+                        {{ form_end(createForm) }}
+                    {% else %}
+                        <div class="alert alert-light border-dashed text-center">
+                            <a href="{{ path('app_login') }}" class="fw-bold text-dark">Connectez-vous</a> pour laisser un avis !
                         </div>
-                        <button type="submit" class="btn btn-dark rounded-pill px-4">Publier mon avis</button>
-                    </form>
-                    <div class="comment-card">
-                        <div class="d-flex justify-content-between mb-2">
-                            <strong>Sophie_67</strong>
-                            <small class="text-muted">Il y a 2 jours</small>
+                    {% endif %}
+
+                    <div class="mt-5">
+                        {% for comment in hike.comment %}
+                        <div class="comment-card p-3 mb-3 rounded-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div>
+                                    <strong class="text-brown">{{ comment.userComment.firstname }} {{ comment.userComment.name }}</strong>
+                                    <small class="text-muted ms-2">{{ comment.date|date('d/m/Y à H:i') }}</small>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    {% if is_granted('EDIT', comment) %}
+                                        <a href="{{ path('app_comment_update', {'id': comment.id}) }}" class="btn btn-sm btn-outline-secondary border-0" title="Modifier">
+                                            <i class="bi bi-pencil-fill"></i>
+                                        </a>
+                                    {% endif %}
+                                    {% if is_granted('DELETE', comment) %}
+                                        <form action="{{ path('app_comment_delete', {'id': comment.id}) }}" method="POST" onsubmit="return confirm('Supprimer cet avis ?');" class="m-0">
+                                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('delete-comment') }}">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger border-0" title="Supprimer">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <p class="mb-0">{{ comment.content }}</p>
                         </div>
-                        <p class="mb-0 small">Superbe balade ! Les châteaux sont magnifiques sous le soleil de printemps. Chemin bien entretenu.</p>
+                        {% else %}
+                            <p class="text-muted fst-italic">Aucun avis pour le moment. Soyez le premier !</p>
+                        {% endfor %}
                     </div>
                 </section>
             </article>
         </div>
     </div>
 </div>
-<div class="modal fade" id="doneModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0" style="border-radius: 30px;">
-            <div class="modal-body p-4 text-center">
-                <h4 class="fw-bold mb-3">Bravo pour cette rando !</h4>
-                <p>Quand avez-vous parcouru ce sentier ?</p>
-                <input type="date" class="form-control mb-4">
-                <div class="d-grid gap-2">
-                    <button class="btn btn-dark rounded-pill py-2">Enregistrer dans mon carnet</button>
-                    <button class="btn btn-link text-muted" data-bs-dismiss="modal">Annuler</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 {% endblock %}
