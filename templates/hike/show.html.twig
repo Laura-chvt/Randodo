@@ -5,16 +5,16 @@
 {% block body %}
 
 <div class="container mb-5">
-    <div class="row">
+    <div class="row mb-3 mb-md-4">
         <div class="col-12">
-            <img class="hike-header-img" src="{{ hike.thumbnail ? asset('uploads/pictures/' ~ hike.thumbnail) : 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200' }}" alt="Sommet des Vosges" class="hike-header-img">
+            <img class="hike-header-img img-fluid w-100" src="{{ hike.thumbnail ? asset('uploads/pictures/' ~ hike.thumbnail) : 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200' }}" alt="Sommet des Vosges" class="hike-header-img">
         </div>
     </div>
 
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <article class="hike-main-card">
-                <div class="d-flex justify-content-between align-items-start mb-4 flex-wrap">
+                <div class="d-flex justify-content-between align-items-start mb-4 flex-wrap flex-column flex-lg-row">
                     <div>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mb-2">
@@ -22,12 +22,12 @@
                                 <li class="breadcrumb-item active">{{ hike.location.name }}</li>
                             </ol>
                         </nav>
-                        <h1 class="fw-bold display-5 mb-2">{{ hike.name }}</h1>
+                        <h1 class="fw-bold fs-1 mb-2">{{ hike.name }}</h1>
                         {% if hike.family %}
                         <span class="badge-family"><i class="bi bi-people-fill"></i> Idéal en famille</span>
                         {% endif %}
                     </div>
-                    <div class="mt-3 mt-lg-0 d-flex gap-2">
+                    <div class="d-flex flex-wrap align-items-center gap-2">
                         {% set isFavorite = false %}
                         {% if app.user and hike in app.user.favourite %}
                             {% set isFavorite = true %}
@@ -104,10 +104,10 @@
                     </div>
                 </div>
                 {% if app.user %}
-                <div class="card shadow-sm p-3 mb-4">
+                <div class="card shadow-sm p-3 mb-4 p-md-4">
                     <h5 class="card-title fs-6 mb-3">Avez-vous fait cette randonnée ?</h5>
                     {{ form_start(doneForm, {'action': path('app_hike_done', {'id': hike.id})}) }}
-                        <div class="input-group">
+                        <div class="d-flex flex-column flex-sm-row gap-2">
                             {{ form_widget(doneForm.doneAt, {'attr': {'class': 'form-control'}}) }}
                             <button class="btn btn-action btn-done">Marquée faite</button>
                         </div>
@@ -116,7 +116,7 @@
                 {% endif %}
                 <hr class="my-5 opacity-25">
 
-                <section id="comment-section" class="comment-section">
+                <section id="comment-section" class="comment-section p-lg-5">
                     <h3 class="fw-bold mb-4">Avis des randonneurs</h3>
                     {% if app.user %}
                         {{ form_start(createForm, {'action': path('app_comment_create', {'id': hike.id})}) }}
@@ -158,7 +158,7 @@
                             <p class="mb-0">{{ comment.content }}</p>
                         </div>
                         {% else %}
-                            <p class="text-muted fst-italic">Aucun avis pour le moment. Soyez le premier !</p>
+                            <p class="text-muted fst-italic text-center">Aucun avis pour le moment. Soyez le premier !</p>
                         {% endfor %}
                     </div>
                 </section>

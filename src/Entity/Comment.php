@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CommentRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,6 +19,11 @@ class Comment
     private ?\DateTime $date = null;
 
     #[ORM\Column(name: 'comment_content', type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'Votre avis ne peut pas être vide.')]
+    #[Assert\Length(
+        max: 1000,
+        maxMessage: 'Votre avis est un peu trop long. Il ne doit pas dépasser {{ limit }} caractères.'
+    )]
     private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'comment')]

@@ -14,10 +14,12 @@ class CommentCreateFormType extends AbstractType
         $builder
             ->add('content', null, [
                 'label' => false,
+                'required' => true,
                 'attr' => [
                     'class' => 'form-control', 
                     'rows' => 3, 
-                    'placeholder' => 'Partagez votre expérience...'
+                    'placeholder' => 'Partagez votre expérience...',
+                    'maxlength' => 1000
                 ]
             ])
         ;

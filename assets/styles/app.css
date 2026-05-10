@@ -50,7 +50,7 @@ body {
 
 /*hero index*/
 .hero-section {
-    padding: 100px 0 60px;
+    padding: 20px 0 50px;
     background-size: cover;
     min-height: 500px;
     display: flex;
@@ -61,6 +61,7 @@ body {
     background: rgba(255, 255, 255, 0.8);
     padding: 2rem;
     border-radius: 30px;
+    max-width: 900px;
     display: inline-block;
     box-shadow: var(--rd-soft-shadow);
 }
@@ -197,7 +198,6 @@ footer {
 .comment-section {
     background: rgba(255, 255, 255, 0.5);
     border-radius: 30px;
-    padding: 30px;
 }
 .comment-card {
     background: white;
