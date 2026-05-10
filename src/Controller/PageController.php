@@ -26,7 +26,7 @@ final class PageController extends AbstractController
             $contactFormData = $form->getData();
             $email = (new Email())
                 ->from($contactFormData['email'])
-                ->to('laura.chvt@laura.chevillet.servd16161.odns.fr')
+                ->to('randodo@randodo.laura-chevillet.fr')
                 ->subject('Nouveau message de ' . $contactFormData['name'])
                 ->text($contactFormData['message']);
             $mailer->send($email);
